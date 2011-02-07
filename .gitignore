@@ -1,5 +1,12 @@
-.classpath
-.project
-.settings
-eclipse
+# Extracted from https://github.com/ulrich/macaron-factory/blob/master/.gitignore
+# Ignore all dotfiles...
+.*
+# except for .gitignore
+!.gitignore
+
+# Ignore Play! working directory
 tmp
+log
+logs
+test-result
+eclipse
