@@ -2,6 +2,7 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
+import play.mvc.Http.Request;
 
 import java.util.*;
 
@@ -11,6 +12,10 @@ public class Application extends Controller {
 
     public static void index() {
         render();
+    }
+    
+    public static void facebook() {
+    	render();
     }
 
 }
