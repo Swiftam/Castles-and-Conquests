@@ -12,6 +12,10 @@ import models.*;
 
 public class Application extends Controller {
     public static void index() {
+    	render();
+    }
+    
+    public static void facebook() {
     	String req = params.get("signed_request");
     	String appId = Play.configuration.getProperty("fb.appId");
     	String secret = Play.configuration.getProperty("fb.appSecret");
@@ -28,17 +32,9 @@ public class Application extends Controller {
     		//String currentPath = Request.current().getBase() + Request.current().url;
     		String appPath = Play.configuration.getProperty("fb.appPath");
     		String url = fb.getAuthorizeUrl(appPath);
-    		renderTemplate("Application/fbRedirect.html", url);    
+    		render(url);    
     	} else {
-            render();
+            index();
     	}
-    }
-    
-    public static void facebook() {
-    	render();
-    }
-
-    public static void facebookLogin() {
-    	render();
     }
 }

@@ -1,18 +1,4 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-Welcome to the home page.
-
-<script type="text/javascript">
-    function facebookLogin() {
-        // get current login status from facebook.com
-        FB.getLoginStatus(function(response) {
-            if (response.session) {
-                // logged in and connected user, someone you know
-                window.location = "@{Application.facebookLogin()}";
-            } else {
-                window.location = "@{Application.facebook()}";
-            }
-        });
-    }
-</script>
+<h1>Castles and Conquests</h1>
