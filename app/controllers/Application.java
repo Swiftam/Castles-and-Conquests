@@ -12,6 +12,11 @@ import models.*;
 
 public class Application extends Controller {
     public static void index() {
+    	User user = null;
+    	String snid = session.get("snid");
+    	if ( null != snid ) {
+    		user = User.find("snid = ?", snid).first();
+    	}
     	render();
     }
     
@@ -34,6 +39,7 @@ public class Application extends Controller {
     		String url = fb.getAuthorizeUrl(appPath);
     		render(url);    
     	} else {
+    		session.put("snid", "fb_" + userId);
             index();
     	}
     }
