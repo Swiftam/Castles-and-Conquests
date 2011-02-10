@@ -12,12 +12,55 @@ import models.*;
 
 public class Application extends Controller {
     public static void index() {
-    	User user = null;
-    	String snid = session.get("snid");
-    	if ( null != snid ) {
-    		user = User.find("snid = ?", snid).first();
+    	User user = User.locate();
+    	
+    	if ( null == user ) {
+    		register();
+    	} else {
+        	render(user);
     	}
+    }
+    
+    public static void reset(Boolean confirm) {
+    	if ( null == confirm ) {
+        	render();
+        	return;
+    	}
+    	
+    	User user = User.locate();
+    	if ( null != user ) {
+    		user.delete();
+    		session.remove("userid");
+    	}
+    	index();
+    }
+    
+    public static void settings() {
+    	User user = User.locate();
+    	if ( null == user ) {
+    		register();
+    	}
+    	render(user);
+    }
+    
+    /**
+     * Display registration form
+     */
+    public static void register() {
     	render();
+    }
+    
+    /**
+     * Process registration form
+     */
+    public static void postUser(String name) {
+    	String snid = session.get("snid");
+    	User user = new User();
+    	user.name = name;
+    	user.snid = snid;
+    	user.save();
+    	session.put("userid", user.id);
+    	index();
     }
     
     public static void facebook() {

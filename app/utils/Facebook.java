@@ -31,6 +31,9 @@ public class Facebook {
 
 	public String getUserId()
 		throws FacebookRequestException {
+		if ( _sigReq.isEmpty() ) {
+			throw new FacebookRequestException("Signed request is empty");
+		}
 		int idx = _sigReq.indexOf(".");
 		byte[] sig = new Base64(true).decode(_sigReq.substring(0,idx).getBytes());
 		String rawpayload = _sigReq.substring(idx+1);

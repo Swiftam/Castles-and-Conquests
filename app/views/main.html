@@ -11,8 +11,13 @@
         #{get 'moreScripts' /}
     </head>
     <body>
+    	<ul id="menu">
+    		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
+    		<li><a href="#">&{'Application.army'}</a></li>
+    		<li><a href="#">&{'Application.land'}</a></li>
+    		<li><a href="#">&{'Application.quests'}</a></li>
+    		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
+    	</ul>
         #{doLayout /}
-
-		<p><a href="/facebook/">Facebook Home</a></p>
     </body>
 </html>

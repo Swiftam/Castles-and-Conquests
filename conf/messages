@@ -1,3 +1,23 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+Application.home=Home
+Application.army=Army
+Application.land=Land
+Application.quests=Quests
+Application.settings=Settings
+Application.yes=Yes
+Application.no=No
+    		
+Application.index.title=Castles and Conquests
+Application.index.welcome=Welcome, %s!
+
+Application.register.title=Register Yourself
+Application.register.form.name=Your avatar name:
+Application.register.form.submit=Create My Account
+
+Application.reset.title=Reset Account
+Application.reset.confirm=Are you sure you want to reset your account?
+
+Application.settings.title=Account Settings
+Application.settings.reset=Reset Account
