@@ -15,9 +15,22 @@
     		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
     		<li><a href="#">&{'Application.army'}</a></li>
     		<li><a href="#">&{'Application.land'}</a></li>
-    		<li><a href="#">&{'Application.quests'}</a></li>
+    		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
     		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
     	</ul>
         #{doLayout /}
+
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+			FB.init({appId: '${play.Play.configuration.get("fb.appId")}', status: true, cookie: true, xfbml: true});
+			FB.Canvas.setAutoResize();
+		};
+		(function() {
+			var e = document.createElement('script'); e.async = true;
+			e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+			document.getElementById('fb-root').appendChild(e);
+		}());
+	</script>
     </body>
 </html>

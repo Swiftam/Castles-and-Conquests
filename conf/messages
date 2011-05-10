@@ -12,6 +12,8 @@ Application.no=No
 Application.index.title=Castles and Conquests
 Application.index.welcome=Welcome, %s!
 
+Application.quests.title=Quests
+
 Application.register.title=Register Yourself
 Application.register.form.name=Your avatar name:
 Application.register.form.submit=Create My Account

@@ -44,12 +44,19 @@ public class Application extends Controller {
     }
     
     /**
+     * Display quests selection
+     */
+    public static void quests() {
+	render();
+    }
+
+    /**
      * Display registration form
      */
     public static void register() {
     	render();
     }
-    
+
     /**
      * Process registration form
      */
