@@ -10,4 +10,6 @@ import java.util.*;
 @Entity
 public class Quest extends Model {
     public String name;
+    public String description;
+    public int xp;
 }

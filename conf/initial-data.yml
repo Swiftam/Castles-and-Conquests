@@ -1,2 +1,9 @@
 Quest(fightOgre):
   name: Fight an Ogre
+  description: Ogres are terrible things, you should kill them all.
+  xp: 2
+
+Quest(hideRefugees):
+  name: Hide Refugees
+  description: Help the refugees avoid persecution.
+  xp: 3
