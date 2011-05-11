@@ -47,7 +47,8 @@ public class Application extends Controller {
      * Display quests selection
      */
     public static void quests() {
-	render();
+        List<Quest> quests = Quest.findAll();
+	render(quests);
     }
 
     /**

@@ -2,3 +2,13 @@
 #{set title:'Quests' /}
 
 <h1>&{'Application.quests.title'}</h1>
+
+#{if quests.size() > 0}
+	#{list items:quests, as:'quest'}
+		<div class="quest">
+			<h2 class="quest-name">
+				<a href="#">${quest.name}</a>
+			</h2>
+		</div>
+	#{/list}
+#{/if}
