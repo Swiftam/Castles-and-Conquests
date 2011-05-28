@@ -1,0 +1,10 @@
+#{extends 'main.html' /}
+#{set title:'Mission' /}
+
+<h1>&{'Mission.run.title'}</h1>
+
+<h2>${quest.name} success!</h2>
+
+<p>XP Gained: ${quest.xp}
+
+<p><a href="@{Mission.info(quest.id)}">Back to Quest</a></p>

@@ -7,3 +7,18 @@ Quest(hideRefugees):
   name: Hide Refugees
   description: Help the refugees avoid persecution.
   xp: 3
+
+Level(newbie):
+  name: Newbie
+  order: 1
+  xp: 0
+
+Level(student):
+  name: Student
+  order: 2
+  xp: 5
+
+Level(apprentice):
+  name: Apprentice
+  order: 3
+  xp: 10

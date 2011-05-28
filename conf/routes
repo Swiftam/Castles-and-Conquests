@@ -9,5 +9,8 @@
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
+GET /quest/{questid}							Mission.info
+GET /quest/run/{questid}						Mission.run
+
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

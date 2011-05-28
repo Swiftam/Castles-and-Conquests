@@ -7,7 +7,7 @@
 	#{list items:quests, as:'quest'}
 		<div class="quest">
 			<h2 class="quest-name">
-				<a href="#">${quest.name}</a>
+				<a href="@{Mission.info(quest.id)}">${quest.name}</a>
 			</h2>
 
 			<p>

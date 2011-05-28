@@ -23,3 +23,6 @@ Application.reset.confirm=Are you sure you want to reset your account?
 
 Application.settings.title=Account Settings
 Application.settings.reset=Reset Account
+
+
+Mission.info.title=Quest Information

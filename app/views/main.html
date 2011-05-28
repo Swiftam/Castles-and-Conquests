@@ -18,6 +18,15 @@
     		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
     		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
     	</ul>
+    	
+    	#{if null != user}
+    	<ul id="stats">
+    		<li>Name: ${user.name}</li>
+    		<li>Level: ${user.getLevel()}</li>
+    		<li>Gold: ${user.gold}</li>
+    		<li>XP: ${user.exp}/${user.getExpToLevel()}</li>
+    	</ul>
+    	#{/if}
         #{doLayout /}
 
 	<div id="fb-root"></div>

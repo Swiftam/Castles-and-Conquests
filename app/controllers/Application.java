@@ -1,7 +1,6 @@
 package controllers;
 
 import play.*;
-import play.modules.*;
 import play.mvc.*;
 import play.mvc.Http.Request;
 
@@ -48,7 +47,7 @@ public class Application extends Controller {
      */
     public static void quests() {
         List<Quest> quests = Quest.findAll();
-	render(quests);
+        render(quests);
     }
 
     /**

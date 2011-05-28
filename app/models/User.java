@@ -11,6 +11,17 @@ import java.util.*;
 public class User extends Model {
     public String snid;
     public String name;
+    public Long gold;
+    public Long exp;
+    private Level level;
+    
+    public User()
+    {
+    	super();
+    	this.gold = 0L;
+    	this.exp = 0L;
+    	this.level = Level.find("order = ?", 1).first();
+    }
     
     public static User locate() {
     	return locate(null);
@@ -29,8 +40,21 @@ public class User extends Model {
 	    	if ( null != snid ) {
 	    		return User.find("snid = ?", snid).first();
 	    	}
+	    	
+	    	return null;
     	}
     	
     	return User.findById(userid);
+    }
+    
+    public int getLevel() {
+    	if ( null == this.level ) {
+    		return 0;
+    	}
+    	return level.order;
+    }
+    
+    public Long getExpToLevel() {
+    	return 0L;
     }
 }

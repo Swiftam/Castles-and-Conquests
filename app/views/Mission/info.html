@@ -1,0 +1,12 @@
+#{extends 'main.html' /}
+#{set title:'Mission' /}
+
+<h1>&{'Mission.info.title'}</h1>
+
+<h2>${quest.name}</h2>
+
+<p>Exp: ${quest.xp}</p>
+
+<p><a href="@{Mission.run(quest.id)}">Run Quest Now</a></p>
+
+<p><a href="@{Application.quests()}">Back to Quests</a></p>
