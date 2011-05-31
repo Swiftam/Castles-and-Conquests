@@ -9,7 +9,7 @@ import java.util.*;
 
 @Entity
 public class Level extends Model {
-	int order;
-	int xp;
-	String name;
+	public int rank;
+	public int xp;
+	public String name;
 }

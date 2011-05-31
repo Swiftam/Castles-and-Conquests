@@ -10,15 +10,15 @@ Quest(hideRefugees):
 
 Level(newbie):
   name: Newbie
-  order: 1
+  rank: 1
   xp: 0
 
 Level(student):
   name: Student
-  order: 2
+  rank: 2
   xp: 5
 
 Level(apprentice):
   name: Apprentice
-  order: 3
+  rank: 3
   xp: 10

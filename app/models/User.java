@@ -17,10 +17,17 @@ public class User extends Model {
     
     public User()
     {
+    	this("");
+    }
+    
+    public User(String name)
+    {
     	super();
+    	this.name = name;
     	this.gold = 0L;
     	this.exp = 0L;
-    	this.level = Level.find("order = ?", 1).first();
+    	Level level = Level.find("rank = ?", 1).first();
+    	this.level = level;
     }
     
     public static User locate() {
@@ -51,7 +58,7 @@ public class User extends Model {
     	if ( null == this.level ) {
     		return 0;
     	}
-    	return level.order;
+    	return level.rank;
     }
     
     public Long getExpToLevel() {
