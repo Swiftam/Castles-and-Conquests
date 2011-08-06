@@ -13,7 +13,9 @@ public class User extends Model {
     public String name;
     public Long gold;
     public Long exp;
-    private Level level;
+    
+    @ManyToOne
+    public Level level;
     
     public User()
     {
@@ -26,8 +28,7 @@ public class User extends Model {
     	this.name = name;
     	this.gold = 0L;
     	this.exp = 0L;
-    	Level level = Level.find("rank = ?", 1).first();
-    	this.level = level;
+    	this.level = null;
     }
     
     public static User locate() {
@@ -54,14 +55,19 @@ public class User extends Model {
     	return User.findById(userid);
     }
     
-    public int getLevel() {
+    public Level getLevel() {
     	if ( null == this.level ) {
-    		return 0;
+        	this.level = Level.find("rank = ?", 1).first();
     	}
-    	return level.rank;
+    	return level;
     }
     
     public Long getExpToLevel() {
-    	return 0L;
+    	Level nextLevel = level.next();
+    	if ( null == nextLevel )
+    	{
+    		return 0L;
+    	}
+    	return nextLevel.xp;
     }
 }

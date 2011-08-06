@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import play.*;
 import play.jobs.*;
 import play.test.*;
@@ -10,7 +13,7 @@ public class Bootstrap extends Job {
 	public void doJob() {
         // Check if the database is empty
         if(Quest.count() == 0) {
-            Fixtures.load("initial-data.yml");
+        	Fixtures.loadModels("initial-data.yml");
         }
     }
  

@@ -10,6 +10,18 @@ import java.util.*;
 @Entity
 public class Level extends Model {
 	public int rank;
-	public int xp;
+	public Long xp;
 	public String name;
+	private Level _nextLevel;
+	private Boolean _nextLevelLoaded = false;
+	
+	public Level next()
+	{
+		if ( !_nextLevelLoaded )
+		{
+			_nextLevel = Level.find("rank = ?", (rank+1)).first();
+		}
+
+		return _nextLevel;
+	}
 }

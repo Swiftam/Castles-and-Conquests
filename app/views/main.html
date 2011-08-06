@@ -11,18 +11,22 @@
         #{get 'moreScripts' /}
     </head>
     <body>
-    	<ul id="menu">
-    		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
-    		<li><a href="#">&{'Application.army'}</a></li>
-    		<li><a href="#">&{'Application.land'}</a></li>
-    		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
-    		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
-    	</ul>
+    	<header>
+	    	<nav>
+		    	<ul>
+		    		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
+		    		<li><a href="#">&{'Application.army'}</a></li>
+		    		<li><a href="#">&{'Application.land'}</a></li>
+		    		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
+		    		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
+		    	</ul>
+	    	</nav>
+    	</header>
     	
     	#{if null != user}
     	<ul id="stats">
     		<li>Name: ${user.name}</li>
-    		<li>Level: ${user.getLevel()}</li>
+    		<li>Level: ${user.getLevel().rank}</li>
     		<li>Gold: ${user.gold}</li>
     		<li>XP: ${user.exp}/${user.getExpToLevel()}</li>
     	</ul>

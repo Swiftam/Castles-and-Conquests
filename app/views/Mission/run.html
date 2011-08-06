@@ -1,10 +1,23 @@
 #{extends 'main.html' /}
 #{set title:'Mission' /}
 
+<article>
 <h1>&{'Mission.run.title'}</h1>
 
-<h2>${quest.name} success!</h2>
+<h2>&{'Mission.run.subtitle', quest.name}</h2>
 
-<p>XP Gained: ${quest.xp}
+#{if advanceLevel == true}
+<h2>&{'Mission.run.advanceLevel.title'}</h2>
 
-<p><a href="@{Mission.info(quest.id)}">Back to Quest</a></p>
+<p>&{'Mission.run.advanceLevel.paragraph1', user.level.rank}</p>
+#{/if}
+
+<p>&{'Mission.run.xpgained', quest.xp}</p>
+
+<menu>
+<ul>
+  <li><a href="@{Mission.run(quest.id)}">&{'Mission.run.retryButtonText'}</a></li>
+  <li><a href="@{Mission.info(quest.id)}">&{'Mission.run.backButtonText'}</a></li>
+</ul>
+</menu>
+</article>

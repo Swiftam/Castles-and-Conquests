@@ -27,6 +27,9 @@ public class Mission extends Controller {
 
     
     public static void run(Long questid) {
+    	Boolean advanceLevel = false;
+    	Level nextLevel = null;
+    	
     	// Need a valid quest ID
     	if ( null == questid ) {
     		index();
@@ -35,10 +38,21 @@ public class Mission extends Controller {
 
     	Quest quest = Quest.findById(questid);
     	User user = User.locate();
+    	if ( null == user ) {
+    		index();
+    		return;
+    	}
     	
     	user.exp += quest.xp;
+
+    	// Check if player has advanced to the next level
+    	nextLevel = user.level.next();
+    	if ( quest.xp > 0 && null != nextLevel && user.exp >= nextLevel.xp ) {
+    		user.level = nextLevel;
+    		advanceLevel = true;
+    	}
     	user.save();
     	
-    	render(quest, user);
+    	render(quest, user, advanceLevel);
     }
 }

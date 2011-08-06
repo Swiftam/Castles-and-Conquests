@@ -26,3 +26,11 @@ Application.settings.reset=Reset Account
 
 
 Mission.info.title=Quest Information
+
+Mission.run.title=Quest Completed
+Mission.run.subtitle=%s completed successfully.
+Mission.run.backButtonText=Back to Quests
+Mission.run.retryButtonText=Repeat Quest
+Mission.run.xpgained=Xp Gained: %d
+Mission.run.advanceLevel.title=Level up!
+Mission.run.advanceLevel.paragraph1=Welcome to level %d!
