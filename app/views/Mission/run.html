@@ -13,11 +13,12 @@
 #{/if}
 
 <p>&{'Mission.run.xpgained', quest.xp}</p>
+<p>&{'Mission.run.goldgained', goldGained}</p>
 
 <menu>
 <ul>
-  <li><a href="@{Mission.run(quest.id)}">&{'Mission.run.retryButtonText'}</a></li>
-  <li><a href="@{Mission.info(quest.id)}">&{'Mission.run.backButtonText'}</a></li>
+  <li><a href="@{Mission.run(quest.id)}" class="button">&{'Mission.run.retryButtonText'}</a></li>
+  <li><a href="@{Mission.info(quest.id)}" class="button">&{'Mission.run.backButtonText'}</a></li>
 </ul>
 </menu>
 </article>

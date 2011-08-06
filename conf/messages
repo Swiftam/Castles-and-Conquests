@@ -8,6 +8,8 @@ Application.quests=Quests
 Application.settings=Settings
 Application.yes=Yes
 Application.no=No
+
+Application.land.title=Land
     		
 Application.index.title=Castles and Conquests
 Application.index.welcome=Welcome, %s!
@@ -26,11 +28,16 @@ Application.settings.reset=Reset Account
 
 
 Mission.info.title=Quest Information
+Mission.info.backButtonText=Back to Quests
+Mission.info.runButtonText=Run Quest Now
+Mission.info.xpgained=Xp: %d
+Mission.info.goldgained=Gold: %d-%d
 
 Mission.run.title=Quest Completed
 Mission.run.subtitle=%s completed successfully.
 Mission.run.backButtonText=Back to Quests
 Mission.run.retryButtonText=Repeat Quest
 Mission.run.xpgained=Xp Gained: %d
+Mission.run.goldgained=Gold gained: %d
 Mission.run.advanceLevel.title=Level up!
 Mission.run.advanceLevel.paragraph1=Welcome to level %d!

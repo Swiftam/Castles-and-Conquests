@@ -12,4 +12,6 @@ public class Quest extends Model {
     public String name;
     public String description;
     public int xp;
+    public int minGold;
+    public int maxGold;
 }

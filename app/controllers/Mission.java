@@ -42,8 +42,11 @@ public class Mission extends Controller {
     		index();
     		return;
     	}
-    	
+
+    	Random randNum = new Random();
+    	int goldGained = randNum.nextInt(quest.maxGold-quest.minGold) + quest.minGold;
     	user.exp += quest.xp;
+    	user.gold += goldGained;
 
     	// Check if player has advanced to the next level
     	nextLevel = user.level.next();
@@ -53,6 +56,6 @@ public class Mission extends Controller {
     	}
     	user.save();
     	
-    	render(quest, user, advanceLevel);
+    	render(quest, user, goldGained, advanceLevel);
     }
 }

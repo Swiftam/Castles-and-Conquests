@@ -43,6 +43,15 @@ public class Application extends Controller {
     }
     
     /**
+     * Display lands available for purchase and
+     * already owned
+     */
+    public static void land() {
+    	List<Land> lands = Land.findAll();
+    	render(lands);
+    }
+    
+    /**
      * Display quests selection
      */
     public static void quests() {

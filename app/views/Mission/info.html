@@ -5,8 +5,12 @@
 
 <h2>${quest.name}</h2>
 
-<p>Exp: ${quest.xp}</p>
+<p>&{'Mission.info.xpgained', quest.xp}</p>
+<p>&{'Mission.info.goldgained', quest.minGold, quest.maxGold}</p>
 
-<p><a href="@{Mission.run(quest.id)}">Run Quest Now</a></p>
-
-<p><a href="@{Application.quests()}">Back to Quests</a></p>
+<menu>
+<ul>
+  <li><a href="@{Mission.run(quest.id)}" class="button">&{'Mission.info.runButtonText'}</a></li>
+  <li><a href="@{Application.quests()}" class="button">&{'Mission.info.backButtonText'}</a></li>
+</ul>
+</menu>

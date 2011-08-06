@@ -4,6 +4,7 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/reset.css'}">
         <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
@@ -16,7 +17,7 @@
 		    	<ul>
 		    		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
 		    		<li><a href="#">&{'Application.army'}</a></li>
-		    		<li><a href="#">&{'Application.land'}</a></li>
+		    		<li><a href="@{Application.land()}">&{'Application.land'}</a></li>
 		    		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
 		    		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
 		    	</ul>

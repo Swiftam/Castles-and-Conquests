@@ -2,11 +2,29 @@ Quest(fightOgre):
   name: Fight an Ogre
   description: Ogres are terrible things, you should kill them all.
   xp: 2
+  minGold: 5
+  maxGold: 10
 
 Quest(hideRefugees):
   name: Hide Refugees
   description: Help the refugees avoid persecution.
   xp: 3
+  minGold: 6
+  maxGold: 15
+  
+Land(swamp):
+  name: Swamp
+  level: 1
+  price: 1000
+  income: 10
+  description: It doesn't get much better than this.
+  
+Land(hut):
+  name: Hut
+  level: 1
+  price: 1500
+  income: 15
+  description: Huts make good homes, if you're swamp-dwelling monsters.
 
 Level(newbie):
   name: Newbie
