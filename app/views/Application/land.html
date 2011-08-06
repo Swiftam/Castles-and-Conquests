@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'Land' /}
+
+<h1>&{'Application.land.title'}</h1>
+
+#{if lands.size() > 0}
+	#{list items:lands, as:'land'}
+		<section class="land">
+			<h2 class="land-name">
+				<a href="#">${land.name}</a>
+			</h2>
+
+			<p>
+				${land.description}
+			</p>
+		</section>
+	#{/list}
+#{/if}
