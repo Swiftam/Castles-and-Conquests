@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'Property' /}
+
+<h1>&{'Property.info.title'}</h1>
+
+<h2>${property.name}</h2>
+
+<menu>
+<ul>
+  <li><a href="@{Property.purchase(property.id)}" class="button">&{'Property.info.buyButtonText'}</a></li>
+  <li><a href="@{Application.land()}" class="button">&{'Property.info.backButtonText'}</a></li>
+</ul>
+</menu>

@@ -7,11 +7,15 @@
 	#{list items:lands, as:'land'}
 		<section class="land">
 			<h2 class="land-name">
-				<a href="#">${land.name}</a>
+				<a href="@{Property.info(land.id)}">${land.name}</a>
 			</h2>
 
 			<p>
 				${land.description}
+			</p>
+			
+			<p>
+				&{'Application.land.owned', owned.get(land.id)}
 			</p>
 		</section>
 	#{/list}

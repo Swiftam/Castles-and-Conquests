@@ -10,7 +10,11 @@
 GET     /public/                                staticDir:public
 
 GET /quest/{questid}							Mission.info
-GET /quest/run/{questid}						Mission.run
+GET /quest/{questid}/run						Mission.run
+
+# Lands and Properties
+GET /land/{landid}								Property.info
+GET /land/{landid}/buy							Property.purchase
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

@@ -47,8 +47,25 @@ public class Application extends Controller {
      * already owned
      */
     public static void land() {
+    	User user = User.locate();
+    	if ( null == user ) {
+    		register();
+    	}
+
     	List<Land> lands = Land.findAll();
-    	render(lands);
+    	
+    	// Figure out how many of each land is owned by the user
+    	List<UserLand> userLands = UserLand.find("user = ?", user).fetch();
+    	HashMap<Long,Integer> owned = new HashMap<Long,Integer>(); 
+    	for ( Land l : lands) {
+    		for ( UserLand ul : userLands ) {
+    			if ( ul.land.id == l.id ) {
+    				owned.put(l.id, ul.quantity);
+    				break;
+    			}
+    		}
+    	}
+    	render(lands, owned);
     }
     
     /**

@@ -15,6 +15,7 @@ public class User extends Model {
     public Long exp;
     
     @ManyToOne
+    //@JoinColumn(name="level_id", referencedColumnName="id")
     public Level level;
     
     public User()

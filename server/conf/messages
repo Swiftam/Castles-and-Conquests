@@ -10,6 +10,7 @@ Application.yes=Yes
 Application.no=No
 
 Application.land.title=Land
+Application.land.owned=Owned: %d
     		
 Application.index.title=Castles and Conquests
 Application.index.welcome=Welcome, %s!
@@ -41,3 +42,10 @@ Mission.run.xpgained=Xp Gained: %d
 Mission.run.goldgained=Gold gained: %d
 Mission.run.advanceLevel.title=Level up!
 Mission.run.advanceLevel.paragraph1=Welcome to level %d!
+
+Property.info.title=Property Information
+Property.info.buyButtonText=Buy This Land
+Property.info.backButtonText=Back to Lands
+
+Property.purchase.title=Purchase Land
+Property.purchase.youown=You own: 
