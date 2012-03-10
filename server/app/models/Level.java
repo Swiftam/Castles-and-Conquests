@@ -20,6 +20,7 @@ public class Level extends Model {
 		if ( !_nextLevelLoaded )
 		{
 			_nextLevel = Level.find("rank = ?", (rank+1)).first();
+			_nextLevelLoaded = (null != _nextLevel);
 		}
 
 		return _nextLevel;

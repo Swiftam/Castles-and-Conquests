@@ -13,6 +13,8 @@ public class User extends Model {
     public String name;
     public Long gold;
     public Long exp;
+    public Long health;
+    public Long healthMax;
     
     @ManyToOne
     //@JoinColumn(name="level_id", referencedColumnName="id")
@@ -29,6 +31,8 @@ public class User extends Model {
     	this.name = name;
     	this.gold = 0L;
     	this.exp = 0L;
+    	this.health = 20L;
+    	this.healthMax = 20L;
     	this.level = null;
     }
     
@@ -70,5 +74,15 @@ public class User extends Model {
     		return 0L;
     	}
     	return nextLevel.xp;
+    }
+
+    /**
+     * Increase health and other statistics as a result of
+     * a user gaining a level.
+     */
+    public void gainLevel() {
+    	// Add more health and give the user maximum health
+    	healthMax += Math.max(1, Math.abs(new Random().nextLong() % 5));
+    	health = healthMax;
     }
 }

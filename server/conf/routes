@@ -4,7 +4,7 @@
 *		/facebook/								Application.facebook
 
 # Home page
-*     /                                       Application.index
+*     /                                       	Application.index
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public

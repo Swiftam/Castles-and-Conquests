@@ -47,12 +47,17 @@ public class Mission extends Controller {
     	int goldGained = randNum.nextInt(quest.maxGold-quest.minGold) + quest.minGold;
     	user.exp += quest.xp;
     	user.gold += goldGained;
+    	user.health -= quest.power;
 
     	// Check if player has advanced to the next level
     	nextLevel = user.level.next();
     	if ( quest.xp > 0 && null != nextLevel && user.exp >= nextLevel.xp ) {
     		user.level = nextLevel;
     		advanceLevel = true;
+    	}
+    	
+    	if ( advanceLevel ) {
+    		user.gainLevel();
     	}
     	user.save();
     	

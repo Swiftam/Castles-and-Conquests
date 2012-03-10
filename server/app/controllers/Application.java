@@ -1,6 +1,7 @@
 package controllers;
 
 import play.*;
+import play.cache.Cache;
 import play.mvc.*;
 import play.mvc.Http.Request;
 
@@ -52,7 +53,11 @@ public class Application extends Controller {
     		register();
     	}
 
-    	List<Land> lands = Land.findAll();
+    	List<Land> lands = Cache.get("lands", List.class);
+    	if ( null == lands ) {
+    		lands = Land.findAll();
+    		Cache.set("lands", lands, "1h");
+    	}
     	
     	// Figure out how many of each land is owned by the user
     	List<UserLand> userLands = UserLand.find("user = ?", user).fetch();
@@ -63,6 +68,10 @@ public class Application extends Controller {
     				owned.put(l.id, ul.quantity);
     				break;
     			}
+    		}
+    		
+    		if ( null == owned.get(l.id)) {
+    			owned.put(l.id, 0);
     		}
     	}
     	render(lands, owned);
