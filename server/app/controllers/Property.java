@@ -10,6 +10,17 @@ import utils.*;
 import models.*;
 
 public class Property extends Controller {
+	@Before
+	static void validateUser() {
+    	User user = User.locate();
+    	
+    	if ( null == user ) {
+    		Application.register();
+    	} else {
+        	renderArgs.put("user", user);
+    	}
+	}
+
     public static void index() {
     	Application.index();
     }
@@ -32,11 +43,7 @@ public class Property extends Controller {
     		return;
     	}
     	
-    	User user = User.locate();
-    	if ( null == user ) {
-    		index();
-    		return;
-    	}
+    	User user = (User)renderArgs.get("user");
 
     	Land land = Land.findById(landid);
     	if ( null == land ) {

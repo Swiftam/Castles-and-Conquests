@@ -11,14 +11,19 @@ import utils.*;
 import models.*;
 
 public class Application extends Controller {
-    public static void index() {
+	@Before(unless={"register","reset","postUser","facebook"})
+	static void validateUser() {
     	User user = User.locate();
     	
     	if ( null == user ) {
     		register();
     	} else {
-        	render(user);
+        	renderArgs.put("user", user);
     	}
+	}
+
+	public static void index() {
+    	render();
     }
     
     public static void reset(Boolean confirm) {
@@ -36,11 +41,7 @@ public class Application extends Controller {
     }
     
     public static void settings() {
-    	User user = User.locate();
-    	if ( null == user ) {
-    		register();
-    	}
-    	render(user);
+    	render();
     }
     
     /**
@@ -48,10 +49,7 @@ public class Application extends Controller {
      * already owned
      */
     public static void land() {
-    	User user = User.locate();
-    	if ( null == user ) {
-    		register();
-    	}
+    	User user = (User)renderArgs.get("user");
 
     	List<Land> lands = Cache.get("lands", List.class);
     	if ( null == lands ) {

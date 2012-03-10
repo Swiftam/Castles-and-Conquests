@@ -10,7 +10,18 @@ import utils.*;
 import models.*;
 
 public class Mission extends Controller {
-    public static void index() {
+	@Before
+	static void validateUser() {
+    	User user = User.locate();
+    	
+    	if ( null == user ) {
+    		Application.register();
+    	} else {
+        	renderArgs.put("user", user);
+    	}
+	}
+
+	public static void index() {
     	Application.index();
     }
     
@@ -37,11 +48,7 @@ public class Mission extends Controller {
     	}
 
     	Quest quest = Quest.findById(questid);
-    	User user = User.locate();
-    	if ( null == user ) {
-    		index();
-    		return;
-    	}
+    	User user = (User)renderArgs.get("user");
 
     	Random randNum = new Random();
     	int goldGained = randNum.nextInt(quest.maxGold-quest.minGold) + quest.minGold;

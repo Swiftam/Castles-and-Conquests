@@ -15,6 +15,8 @@ public class User extends Model {
     public Long exp;
     public Long health;
     public Long healthMax;
+    public Calendar created;
+    public Calendar lastUpdate;
     
     @ManyToOne
     //@JoinColumn(name="level_id", referencedColumnName="id")
@@ -34,6 +36,18 @@ public class User extends Model {
     	this.health = 20L;
     	this.healthMax = 20L;
     	this.level = null;
+    	this.lastUpdate = Calendar.getInstance();
+    }
+    
+    public void update() {
+    	long diffInSeconds = (Calendar.getInstance().getTimeInMillis() - lastUpdate.getTimeInMillis())/1000;
+    	long updateInterval = new Long(Play.configuration.getProperty("game.timespan.health"));
+    	updateInterval = 1;
+    	long updateSpans = diffInSeconds / (updateInterval*60);
+    	// Gain 1 health every 5 minutes
+    	health = Math.min(health+updateSpans, healthMax);
+    	lastUpdate.add(Calendar.MINUTE, (int)(updateInterval * updateSpans));
+    	save();
     }
     
     public static User locate() {
