@@ -18,6 +18,7 @@ public class Application extends Controller {
     	if ( null == user ) {
     		register();
     	} else {
+    		user.update();
         	renderArgs.put("user", user);
     	}
 	}
@@ -25,6 +26,13 @@ public class Application extends Controller {
 	public static void index() {
     	render();
     }
+	
+	public static void magic() {
+    	User user = (User)renderArgs.get("user");
+    	user.health = user.healthMax;
+    	user.save();
+		render();
+	}
     
     public static void reset(Boolean confirm) {
     	if ( null == confirm ) {

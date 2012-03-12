@@ -17,6 +17,7 @@ public class Property extends Controller {
     	if ( null == user ) {
     		Application.register();
     	} else {
+    		user.update();
         	renderArgs.put("user", user);
     	}
 	}

@@ -2,18 +2,41 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
-        <title>#{get 'title' /}</title>
+        <title>#{get 'title' /} - &{'Application.title'}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/reset.css'}">
         <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
-    	<header>
-	    	<nav>
+    	<div data-role="page">
+    	<div data-role="header"  id="cheader" data-id="cheader" data-position="fixed">
+    	#{if null != user}
+    	<div class="ui-grid-d">
+    		<div class="ui-block-d">Name: ${user.name}</div>
+    		<div class="ui-block-d">Level: ${user.getLevel().rank}</div>
+    		<div class="ui-block-d">Health: ${user.health}/${user.healthMax}
+    		#{if user.nextUpdate() > 0}
+    			(Next Update in ${user.nextUpdate()} seconds)
+			#{/if}</div>
+    		<div class="ui-block-d">Gold: ${user.gold}</div>
+    		<div class="ui-block-d">XP: ${user.exp}/${user.getExpToLevel()}</div>
+    	</div>
+    	#{/if}
+    		<h1>&{'Application.title'} - #{get 'title' /}</h1>
+    	</div>
+    	
+        #{doLayout /}
+
+	<div data-role="footer" data-id="cfooter" id="cfooter" data-position="fixed">
+	    	<div data-role="navbar">
 		    	<ul>
 		    		<li><a href="@{Application.index()}">&{'Application.home'}</a></li>
 		    		<li><a href="#">&{'Application.army'}</a></li>
@@ -21,19 +44,8 @@
 		    		<li><a href="@{Application.quests()}">&{'Application.quests'}</a></li>
 		    		<li><a href="@{Application.settings()}">&{'Application.settings'}</a></li>
 		    	</ul>
-	    	</nav>
-    	</header>
-    	
-    	#{if null != user}
-    	<ul id="stats">
-    		<li>Name: ${user.name}</li>
-    		<li>Level: ${user.getLevel().rank}</li>
-    		<li>Health: ${user.health}/${user.healthMax}</li>
-    		<li>Gold: ${user.gold}</li>
-    		<li>XP: ${user.exp}/${user.getExpToLevel()}</li>
-    	</ul>
-    	#{/if}
-        #{doLayout /}
+	    	</div>
+	</div>
 
 	<div id="fb-root"></div>
 	<script type="text/javascript">
@@ -47,5 +59,6 @@
 			document.getElementById('fb-root').appendChild(e);
 		}());
 	</script>
+	</div>
     </body>
 </html>

@@ -17,6 +17,7 @@ public class Mission extends Controller {
     	if ( null == user ) {
     		Application.register();
     	} else {
+    		user.update();
         	renderArgs.put("user", user);
     	}
 	}
@@ -35,6 +36,15 @@ public class Mission extends Controller {
     	Quest quest = Quest.findById(questid);
     	render(quest);
     }
+    
+    public static void dead() {
+    	User user = (User)renderArgs.get("user");
+    	if ( user.health > 0 ) {
+    		index();
+    		return;
+    	}
+    	render();
+    }
 
     
     public static void run(Long questid) {
@@ -47,8 +57,13 @@ public class Mission extends Controller {
     		return;
     	}
 
-    	Quest quest = Quest.findById(questid);
     	User user = (User)renderArgs.get("user");
+    	if ( user.health <= 0 ) {
+    		dead();
+    		return;
+    	}
+
+    	Quest quest = Quest.findById(questid);
 
     	Random randNum = new Random();
     	int goldGained = randNum.nextInt(quest.maxGold-quest.minGold) + quest.minGold;

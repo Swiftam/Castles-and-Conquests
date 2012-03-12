@@ -1,11 +1,12 @@
 #{extends 'main.html' /}
-#{set title:'Land' /}
+#{set 'title'}
+&{'Application.land.title'}
+#{/set}
 
-<h1>&{'Application.land.title'}</h1>
-
+<div data-role="collapsible-set">
 #{if lands.size() > 0}
 	#{list items:lands, as:'land'}
-		<section class="land">
+		<section class="land" data-role="collapsible">
 			<h2 class="land-name">
 				<a href="@{Property.info(land.id)}">${land.name}</a>
 			</h2>
@@ -20,3 +21,4 @@
 		</section>
 	#{/list}
 #{/if}
+</div>

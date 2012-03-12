@@ -39,15 +39,49 @@ public class User extends Model {
     	this.lastUpdate = Calendar.getInstance();
     }
     
-    public void update() {
-    	long diffInSeconds = (Calendar.getInstance().getTimeInMillis() - lastUpdate.getTimeInMillis())/1000;
+    public static long getUpdateInterval()
+    {
     	long updateInterval = new Long(Play.configuration.getProperty("game.timespan.health"));
-    	updateInterval = 1;
+    	return updateInterval;
+    }
+    
+    private long secondsSinceLastUpdate()
+    {
+    	long diffInSeconds = (Calendar.getInstance().getTimeInMillis() - lastUpdate.getTimeInMillis())/1000;
+    	return diffInSeconds;
+    }
+    
+    public void update() {
+    	long diffInSeconds = secondsSinceLastUpdate();
+    	long updateInterval = User.getUpdateInterval();
     	long updateSpans = diffInSeconds / (updateInterval*60);
     	// Gain 1 health every 5 minutes
-    	health = Math.min(health+updateSpans, healthMax);
-    	lastUpdate.add(Calendar.MINUTE, (int)(updateInterval * updateSpans));
-    	save();
+    	if ( updateSpans > 0 && health < healthMax ) {
+	    	health = Math.max(0, Math.min(health+updateSpans, healthMax));
+	    	lastUpdate.add(Calendar.MINUTE, (int)(updateInterval * updateSpans));
+	    	save();
+    	} else if ( health >= healthMax ) {
+    		// Reset lastUpdate, any change in account status will
+    		// cause this to start ticking. Otherwise any damage taken
+    		// will get healed as of the last time this value was
+    		// saved.
+    		lastUpdate = Calendar.getInstance();
+    	}
+    }
+    
+    /**
+     * Returns the next update in seconds
+     * 
+     * @return
+     */
+    public long nextUpdate() {
+    	if ( health >= healthMax ) {
+    		return -1;
+    	}
+    	
+    	long diffInSeconds = secondsSinceLastUpdate();
+    	long updateInterval = User.getUpdateInterval();
+    	return updateInterval*60-diffInSeconds;
     }
     
     public static User locate() {
