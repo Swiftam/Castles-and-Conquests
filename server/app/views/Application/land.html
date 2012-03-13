@@ -9,6 +9,7 @@
 		<section class="land" data-role="collapsible">
 			<h2 class="land-name">
 				<a href="@{Property.info(land.id)}">${land.name}</a>
+				<span class="ui-li-count ui-btn-up-c ui-btn-corner-all">&{'Application.land.owned', owned.get(land.id)}</span>
 			</h2>
 
 			<p>
@@ -16,7 +17,8 @@
 			</p>
 			
 			<p>
-				&{'Application.land.owned', owned.get(land.id)}
+				<a href="@{Property.purchase(land.id)}" data-inline="true" data-role="button">&{'Application.land.buynow'}</a>
+				<a href="@{Property.info(land.id)}" data-inline="true" data-role="button">&{'Application.land.moreinfo'}</a>
 			</p>
 		</section>
 	#{/list}

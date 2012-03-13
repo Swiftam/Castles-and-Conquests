@@ -17,17 +17,20 @@
     </head>
     <body>
     	<div data-role="page">
-    	<div data-role="header"  id="cheader" data-id="cheader" data-position="fixed">
+    	<div data-role="header"  id="cheader" data-id="cheader">
     	#{if null != user}
-    	<div class="ui-grid-d">
-    		<div class="ui-block-d">Name: ${user.name}</div>
-    		<div class="ui-block-d">Level: ${user.getLevel().rank}</div>
-    		<div class="ui-block-d">Health: ${user.health}/${user.healthMax}
+    	<div class="ui-grid-b">
+    		<div class="ui-block-b">${user.name}</div>
+    		<div class="ui-block-b">Level: ${user.getLevel().rank}</div>
+    		<div class="ui-block-b">Health: ${user.health}/${user.healthMax}
     		#{if user.nextUpdate() > 0}
     			(Next Update in ${user.nextUpdate()} seconds)
 			#{/if}</div>
-    		<div class="ui-block-d">Gold: ${user.gold}</div>
-    		<div class="ui-block-d">XP: ${user.exp}/${user.getExpToLevel()}</div>
+		</div>
+		<div class="ui-grid-b">
+			<div class="ui-block-b">&nbsp;</div>
+    		<div class="ui-block-b">Gold: ${user.gold}</div>
+    		<div class="ui-block-b">XP: ${user.exp}/${user.getExpToLevel()}</div>
     	</div>
     	#{/if}
     		<h1>&{'Application.title'} - #{get 'title' /}</h1>

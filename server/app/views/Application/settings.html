@@ -3,6 +3,7 @@
 
 <h1>&{'Application.settings.title'}</h1>
 
-<p><a href="@{Application.reset()}">&{'Application.settings.reset'}</a></p>
-
-<p><a href="@{Application.magic()}">&{'Application.settings.magic'}</a></p>
+<div data-role="controlgroup">
+<a href="@{Application.reset()}" data-role="button">&{'Application.settings.reset'}</a>
+<a href="@{Application.magic()}" data-role="button">&{'Application.settings.magic'}</a>
+</div>

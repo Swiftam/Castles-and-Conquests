@@ -11,7 +11,9 @@ Application.no=No
 Application.title=Castles and Conquests
 
 Application.land.title=Land
+Application.land.moreinfo=More
 Application.land.owned=Owned: %d
+Application.land.buynow=Buy Now
     		
 Application.index.title=Castles and Conquests
 Application.index.welcome=Welcome, %s!
@@ -56,4 +58,5 @@ Property.info.buyButtonText=Buy This Land
 Property.info.backButtonText=Back to Lands
 
 Property.purchase.title=Purchase Land
-Property.purchase.youown=You own: 
+Property.purchase.youown=You own:
+Property.purchase.backButtonText=Back to Lands 
