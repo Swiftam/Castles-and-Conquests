@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set 'title'}
+&{'Application.quests.title'}
+#{/set}
+
+<div data-role="collapsible-set">
+#{if quests.size() > 0}
+	#{list items:quests, as:'quest'}
+		<section class="quest" data-role="collapsible">
+			<h2 class="quest-name">
+				<a href="@{Mission.info(quest.id)}">${quest.name}</a>
+			</h2>
+
+			<p>
+				${quest.description}
+			</p>
+		</section>
+	#{/list}
+#{/if}
+</div>

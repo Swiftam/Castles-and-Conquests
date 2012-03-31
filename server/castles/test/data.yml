@@ -1,0 +1,28 @@
+# you describe your data using the YAML notation here
+# and then load them using Fixtures.load("data.yml")
+
+Level(basic):
+  rank: 1
+  name: Basic
+
+Level(easy):
+  rank: 2
+  name: Easy
+ 
+Level(maxlevel):
+  rank: 3
+  name: Hard
+
+User(maximus):
+  snid: asjisoe
+  name: Maximus
+  gold: 50
+  exp: 15
+  level: basic
+
+User(tero):
+  snid: oijrgeam
+  name: Tero
+  gold: 134
+  exp: 78
+  level: maxlevel

@@ -1,0 +1,12 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<h1>&{'Application.index.title'}</h1>
+
+<p>&{'Application.index.welcome', user.name}</p>
+
+<div data-role="controlgroup">
+<a href="@{Application.land()}" data-role="button">Land</a>
+<a href="@{Application.quests()}" data-role="button">Quest</a>
+<a href="@{Application.settings()}" data-role="button">Settings</a>
+</div>

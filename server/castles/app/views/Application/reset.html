@@ -1,0 +1,11 @@
+#{extends 'main.html' /}
+#{set title:'Reset' /}
+
+<h1>&{'Application.reset.title'}</h1>
+
+<p>&{'Application.reset.confirm'}</p>
+
+<p>
+	<a href="@{Application.settings()}" data-role="button" data-inline="true">&{'Application.no'}</a>
+	<a href="@{Application.reset(true)}" data-role="button" data-inline="true" data-theme="b">&{'Application.yes'}</a>
+</p>

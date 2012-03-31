@@ -1,0 +1,26 @@
+#{extends 'main.html' /}
+#{set 'title'}
+&{'Application.land.title'}
+#{/set}
+
+<div data-role="collapsible-set">
+#{if lands.size() > 0}
+	#{list items:lands, as:'land'}
+		<section class="land" data-role="collapsible">
+			<h2 class="land-name">
+				<a href="@{Property.info(land.id)}">${land.name}</a>
+				<span class="ui-li-count ui-btn-up-c ui-btn-corner-all">&{'Application.land.owned', owned.get(land.id)}</span>
+			</h2>
+
+			<p>
+				${land.description}
+			</p>
+			
+			<p>
+				<a href="@{Property.purchase(land.id)}" data-inline="true" data-role="button">&{'Application.land.buynow'}</a>
+				<a href="@{Property.info(land.id)}" data-inline="true" data-role="button">&{'Application.land.moreinfo'}</a>
+			</p>
+		</section>
+	#{/list}
+#{/if}
+</div>

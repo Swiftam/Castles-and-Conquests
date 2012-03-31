@@ -1,0 +1,9 @@
+#{extends 'main.html' /}
+#{set title:'Settings' /}
+
+<h1>&{'Application.settings.title'}</h1>
+
+<div data-role="controlgroup">
+<a href="@{Application.reset()}" data-role="button">&{'Application.settings.reset'}</a>
+<a href="@{Application.magic()}" data-role="button">&{'Application.settings.magic'}</a>
+</div>
