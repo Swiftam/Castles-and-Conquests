@@ -10,3 +10,6 @@ log
 logs
 test-result
 eclipse
+
+# Ignore important scripts
+deployhp.sh
