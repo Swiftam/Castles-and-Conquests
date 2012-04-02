@@ -1,0 +1,10 @@
+{
+    "success": "true",
+    "advanceLevel": "${advanceLevel}",
+    "level": "${user.level.rank}",
+    "health": "${user.health}",
+    "healthMax": "${user.healthMax}",
+    "xpGained": "${quest.xp}",
+    "goldGained": "${goldGained}",
+    "gold": "${user.gold}"
+}

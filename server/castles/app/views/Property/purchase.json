@@ -1,0 +1,4 @@
+{
+    "name": "${property.land.name}",
+    "owned": "${property.quantity}"
+}
