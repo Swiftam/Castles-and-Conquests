@@ -13,3 +13,4 @@ eclipse
 
 # Ignore important scripts
 deployhp.sh
+application.conf

@@ -34,6 +34,18 @@ public class Application extends Controller {
 		render();
 	}
     
+    public static void userInfo() {
+        User user = (User)renderArgs.get("user");
+        
+        render(user);
+    }
+    
+    public static void userLands() {
+        User user = (User)renderArgs.get("user");
+        List<UserLand> lands  = UserLand.find("user = ?", user).fetch();
+        renderJSON(lands);
+    }
+    
     public static void reset(Boolean confirm) {
     	if ( null == confirm ) {
         	render();

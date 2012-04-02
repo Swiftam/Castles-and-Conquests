@@ -26,6 +26,12 @@ public class Mission extends Controller {
     	Application.index();
     }
     
+    public static void list() {
+        List<Quest> quests = Quest.all().fetch();
+        
+        renderJSON(quests);
+    }
+    
     public static void info(Long questid) {
     	// Need a valid quest ID
     	if ( null == questid ) {
@@ -59,6 +65,9 @@ public class Mission extends Controller {
 
     	User user = (User)renderArgs.get("user");
     	if ( user.health <= 0 ) {
+            if ( request.format.equals("json")) {
+                error(600, "Dead");
+            }
     		dead();
     		return;
     	}
@@ -82,7 +91,7 @@ public class Mission extends Controller {
     		user.gainLevel();
     	}
     	user.save();
-    	
+
     	render(quest, user, goldGained, advanceLevel);
     }
 }

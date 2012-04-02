@@ -1,6 +1,7 @@
 package controllers;
 
 import play.*;
+import play.cache.Cache;
 import play.mvc.*;
 import play.mvc.Http.Request;
 
@@ -24,6 +25,17 @@ public class Property extends Controller {
 
     public static void index() {
     	Application.index();
+    }
+
+    public static void list() {
+        User user = (User)renderArgs.get("user");
+
+        List<Land> lands = Cache.get("lands", List.class);
+        if ( null == lands ) {
+            lands = Land.findAll();
+            Cache.set("lands", lands, "1h");
+        }
+        renderJSON(lands);
     }
     
     public static void info(Long landid) {
@@ -59,7 +71,7 @@ public class Property extends Controller {
     		property.quantity++;
     	}
     	property.save();
-    	
-    	render(property);
+
+        render(property);
     }
 }
