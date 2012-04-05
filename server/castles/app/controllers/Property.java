@@ -63,6 +63,10 @@ public class Property extends Controller {
     		index();
     		return;
     	}
+
+        if ( land.price > user.gold ) {
+            error(403, "Not enough gold");
+        }
     	
     	UserLand property = UserLand.find("user = ? and land = ?", user, land).first();
     	if ( null == property ) {

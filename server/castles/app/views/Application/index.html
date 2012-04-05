@@ -13,6 +13,7 @@
     <ul id="menu">
         <li><a href="#lands" id="menuLand">Land</a></li>
         <li><a href="#quests" id="menuQuests">Quests</a></li>
+        <li><a href="#profile" id="menuProfile">Profile</a></li>
     </ul>
     <div id="content"></div>
 </div>
@@ -81,7 +82,28 @@
         </ul>
     </menu>
 </script>
-<!--</script>-->
+
+<script type="text/template" id="tpl-profile">
+    <h1>User Profile</h1>
+
+    <h2><%= name %></h2>
+
+    <table>
+        <tr>
+            <td>Level</td>
+            <td><%= level %></td>
+        </tr>
+        <tr>
+            <td>Health</td>
+            <td><%= health %>/<%= healthMax%></td>
+        </tr>
+
+        <tr>
+            <td>XP:</td>
+            <td><%= xp %>/<%= xpGoal%></td>
+        </tr>
+    </table>
+</script>
 
 <script type="text/javascript">
     (function($) {

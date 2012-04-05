@@ -13,3 +13,31 @@ body {
     width: 760px;
     margin: 0 auto;
 }
+
+#hud span {
+    background: #66d;
+    width: 100px;
+    padding: 15px 0;
+    display: inline-block;
+    text-align: center;
+}
+
+#menu {
+    list-style-type: none;
+}
+
+#menu li {
+    display: inline-block;
+}
+
+#menu a {
+    display: block;
+    background: #600;
+    color: #fff;
+    width: 75px;
+    text-align: center;
+}
+
+#menu a:hover {
+    background: #900;
+}

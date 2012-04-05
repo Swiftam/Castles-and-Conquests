@@ -31,6 +31,9 @@ CastlesApp.LandView = Backbone.View.extend({
 
     buy:function () {
         var sender = this;
+        if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
+            alert("You can't buy this");
+        }
         $.getJSON(this.model.url() + "/buy", {}, function(data) {
             CastlesApp.userLands.fetch();
             sender.trigger('land:buy:success', data);

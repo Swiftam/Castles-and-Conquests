@@ -1,6 +1,9 @@
 {
+    "name": "${user.name}",
     "level": "${user.level.rank}",
     "health": "${user.health}",
     "healthMax": "${user.healthMax}",
-    "gold": "${user.gold}"
+    "gold": "${user.gold}",
+    "xp": "${user.exp}",
+    "xpGoal": "${user.getExpToLevel()}"
 }

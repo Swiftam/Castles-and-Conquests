@@ -12,6 +12,9 @@ var CastlesApp = {
         this.landList = new CastlesApp.LandList();
         this.landList.bind('reset', this.calculateIncome, this);
         this.landList.fetch();
+
+        this.questList = new CastlesApp.QuestList();
+        this.questList.fetch();
     },
 
     initUserData: function() {
@@ -49,7 +52,8 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
         "lands": "landListing",
         "lands/:id": "landDetails",
         "quests": "questListing",
-        "quests/:id": "questDetails"
+        "quests/:id": "questDetails",
+        "profile": "profile"
     },
 
     menu:function() {
@@ -69,16 +73,19 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
     },
 
     questListing:function() {
-        this.questList = new CastlesApp.QuestList();
-        this.questListView = new CastlesApp.QuestListView({model:this.questList});
-        this.questList.fetch();
+        this.questListView = new CastlesApp.QuestListView({model:CastlesApp.app.questList});
         $('#content').html(this.questListView.render().el);
     },
 
     questDetails:function(id) {
-        this.quest = this.questList.get(id);
+        this.quest = CastlesApp.app.questList.get(id);
         this.questView = new CastlesApp.QuestView({model:this.quest});
         $('#content').html(this.questView.render().el);
+    },
+
+    profile:function() {
+        this.profileView = new CastlesApp.ProfileView({model:CastlesApp.app.user});
+        $('#content').html(this.profileView.render().el);
     }
 });
 
