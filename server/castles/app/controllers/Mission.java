@@ -81,9 +81,10 @@ public class Mission extends Controller {
     	user.health -= quest.power;
 
     	// Check if player has advanced to the next level
-    	nextLevel = user.level.next();
-    	if ( quest.xp > 0 && null != nextLevel && user.exp >= nextLevel.xp ) {
-    		user.level = nextLevel;
+    	Level level = Level.findById(user.level);
+    	if ( quest.xp > 0 && null != level && user.exp >= level.xp ) {
+    		user.level++;
+            user.exp -= level.xp;
     		advanceLevel = true;
     	}
     	

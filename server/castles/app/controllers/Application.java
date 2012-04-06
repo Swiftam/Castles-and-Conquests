@@ -6,6 +6,8 @@ import play.mvc.*;
 import play.mvc.Http.Request;
 
 import java.util.*;
+
+import play.test.Fixtures;
 import utils.*;
 
 import models.*;
@@ -26,18 +28,15 @@ public class Application extends Controller {
 	public static void index() {
     	render();
     }
-	
-	public static void magic() {
-    	User user = (User)renderArgs.get("user");
-    	user.health = user.healthMax;
-    	user.save();
-		render();
-	}
     
     public static void userInfo() {
         User user = (User)renderArgs.get("user");
-        
-        render(user);
+        Level level = Level.findById(user.level);
+
+        notFoundIfNull(user);
+        notFoundIfNull(level);
+
+        render(user, level);
     }
     
     public static void userLands() {
@@ -117,7 +116,7 @@ public class Application extends Controller {
     	String snid = session.get("snid");
     	User user = new User();
     	user.name = name;
-    	user.snid = snid;
+        user.snid = snid;
     	user.save();
     	session.put("userid", user.id);
     	index();

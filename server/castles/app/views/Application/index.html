@@ -6,6 +6,7 @@
     #{script 'user.js'/}
     #{script 'land.js'/}
     #{script 'quests.js'/}
+    #{script 'kontagent_api.js'/}
 #{/set}
 
 <div id="contentWindow">
@@ -108,7 +109,17 @@
 <script type="text/javascript">
     (function($) {
         $(document).ready(function() {
-            window.app = CastlesApp.init();
+            // configure and instantiate Kontagent object
+            var ktApiKey = "d50ed84282034078854af95946018865";
+            var ktApi = new KontagentApi(ktApiKey, {
+                useTestServer: true
+            });
+
+            ktApi.trackPageRequest("${user.id}");
+
+            window.app = CastlesApp.init({
+                kontagent: ktApi
+            });
         });
     })(jQuery);
 </script>

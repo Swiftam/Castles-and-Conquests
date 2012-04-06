@@ -2,15 +2,15 @@
 # and then load them using Fixtures.load("data.yml")
 
 Level(basic):
-  rank: 1
+  id: 1
   name: Basic
 
 Level(easy):
-  rank: 2
+  id: 2
   name: Easy
  
 Level(maxlevel):
-  rank: 3
+  id: 3
   name: Hard
 
 User(maximus):
@@ -18,11 +18,11 @@ User(maximus):
   name: Maximus
   gold: 50
   exp: 15
-  level: basic
+  level: 2
 
 User(tero):
   snid: oijrgeam
   name: Tero
   gold: 134
   exp: 78
-  level: maxlevel
+  level: 1

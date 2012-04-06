@@ -2,6 +2,7 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
+import play.exceptions.UnexpectedException;
 import play.mvc.Scope.Session;
 
 import javax.persistence.*;
@@ -17,10 +18,7 @@ public class User extends Model {
     public Long healthMax;
     public Calendar created;
     public Calendar lastUpdate;
-    
-    @ManyToOne
-    //@JoinColumn(name="level_id", referencedColumnName="id")
-    public Level level;
+    public Integer level;
     
     public User()
     {
@@ -30,13 +28,15 @@ public class User extends Model {
     public User(String name)
     {
     	super();
+        this.snid = UUID.randomUUID().toString();
     	this.name = name;
     	this.gold = 0L;
     	this.exp = 0L;
     	this.health = 20L;
     	this.healthMax = 20L;
-    	this.level = null;
+    	this.level = 1;
     	this.lastUpdate = Calendar.getInstance();
+        this.created = Calendar.getInstance();
     }
     
     public static long getUpdateInterval()
@@ -108,22 +108,6 @@ public class User extends Model {
     	return User.findById(userid);
     }
     
-    public Level getLevel() {
-    	if ( null == this.level ) {
-        	this.level = Level.find("rank = ?", 1).first();
-    	}
-    	return level;
-    }
-    
-    public Long getExpToLevel() {
-    	Level nextLevel = level.next();
-    	if ( null == nextLevel )
-    	{
-    		return 0L;
-    	}
-    	return nextLevel.xp;
-    }
-
     /**
      * Increase health and other statistics as a result of
      * a user gaining a level.

@@ -1,0 +1,49 @@
+Level(newbie):
+  name: Newbie
+  id: 1
+  xp: 5
+
+Level(student):
+  name: Student
+  id: 2
+  xp: 5
+
+Level(freshman):
+  name: Freshman
+  id: 3
+  xp: 10
+
+Level(sophomore):
+  name: Sophomore
+  id: 4
+  xp: 25
+
+Level(junior):
+  name: Junior
+  id: 5
+  xp: 50
+
+Level(senior):
+  name: Senior
+  id: 6
+  xp: 80
+
+Level(graduate):
+  name: Graduate
+  id: 7
+  xp: 150
+
+Level(apprentice):
+  name: Apprentice
+  id: 8
+  xp: 250
+
+Level(journeyman):
+  name: Journeyman
+  id: 9
+  xp: 500
+
+Level(master):
+  name: Master
+  id: 10
+  xp: 1200

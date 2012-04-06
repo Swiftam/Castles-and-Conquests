@@ -45,19 +45,8 @@ public class UserTest extends UnitTest {
 		assertNotNull(morlinn);
 		assertEquals("Morlinn", morlinn.name);
 
-		Level level = morlinn.getLevel();
+		Level level = Level.findById(morlinn.level);
 		assertNotNull(level);
-	}
-	
-	@Test
-	public void userMaxLevel() {
-		User user = User.find("snid = ?", "oijrgeam").first();
-		assertNotNull(user);
-		assertEquals(user.name, "Tero");
-		
-		Long expected = 0L;
-		Long result = user.getExpToLevel();
-		assertEquals(expected, result);
 	}
 	
 	@Test
