@@ -34,6 +34,7 @@
     <span id="levelBar">Level <%= level %></span>
     <span id="goldBar">Gold: <%= gold %></span>
     <span id="incomeBar">Income: <%= income %></span>
+    <span id="networthBar">Net Worth: <%= netWorth %></span>
 </script>
 
 <script type="text/template" id="tpl-quest-details">
@@ -102,6 +103,11 @@
         <tr>
             <td>XP:</td>
             <td><%= xp %>/<%= xpGoal%></td>
+        </tr>
+
+        <tr>
+            <td>Net Worth:</td>
+            <td><%= netWorth %></td>
         </tr>
     </table>
 </script>

@@ -12,14 +12,11 @@ public class Bootstrap extends Job {
  
 	public void doJob() {
         Fixtures.delete(Level.class);
-        if ( Level.count() == 0) {
-            Fixtures.loadModels("data-level.yml");
-        }
-
-        // Check if the database is empty
-        if(Quest.count() == 0) {
-        	Fixtures.loadModels("data-quest.yml");
-        }
+        Fixtures.delete(Quest.class);
+        Fixtures.delete(Land.class);
+        Fixtures.loadModels("data-level.yml");
+        Fixtures.loadModels("data-quest.yml");
+        Fixtures.loadModels("data-land.yml");
     }
  
 }

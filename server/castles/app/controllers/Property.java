@@ -76,6 +76,10 @@ public class Property extends Controller {
     	}
     	property.save();
 
+        user.gold -= land.price;
+        user.calculateNetWorth();
+        user.save();
+
         render(property);
     }
 }

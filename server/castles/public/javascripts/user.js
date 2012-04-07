@@ -7,7 +7,8 @@ CastlesApp.User = Backbone.Model.extend({
         'gold': 0,
         'income': 0,
         'xp': 0,
-        'xpGoal': 0 // XP to next level
+        'xpGoal': 0, // XP to next level
+        'netWorth': 0
     },
     url: function() { return "/user"; }
 });

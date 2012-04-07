@@ -4,7 +4,12 @@ CastlesApp.Land = Backbone.Model.extend({
     },
 
     buy: function(quantity) {
-        app.userLands.fetch();
+        var that = this;
+        $.getJSON(this.url() + "/buy", {}, function(data) {
+            that.trigger('buy:success', data);
+        }).error(function(data) {
+            that.trigger('buy:fail', data);
+        });
     },
 
     url: function() { return "/land/" + this.id; }
@@ -29,17 +34,29 @@ CastlesApp.LandView = Backbone.View.extend({
         "click .buy": "buy"
     },
 
+    initialize: function() {
+        this.model.bind("buy:success", this.buySuccess, this);
+        this.model.bind("buy:fail", this.buyFail, this);
+    },
+
+    buySuccess: function(data) {
+        CastlesApp.app.user.fetch();
+        CastlesApp.app.userLands.fetch();
+        this.trigger("land:buy:success", data);
+    },
+
+    buyFail: function(data) {
+        this.trigger("land:buy:fail", data);
+    },
+
     buy:function () {
         var sender = this;
         if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
             alert("You can't buy this");
+            return;
         }
-        $.getJSON(this.model.url() + "/buy", {}, function(data) {
-            CastlesApp.userLands.fetch();
-            sender.trigger('land:buy:success', data);
-        }).error(function(data) {
-            sender.trigger('land:buy:fail', data);
-        });
+
+        this.model.buy(1);
     },
 
     render:function (eventName) {

@@ -11,6 +11,8 @@ import java.util.*;
 public class Level extends GenericModel {
     @Id
     public Integer id;
+
 	public Long xp;
+
 	public String name;
 }

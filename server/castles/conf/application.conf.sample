@@ -201,3 +201,4 @@ fb.appSecret=appSecret
 
 # Game constants
 game.timespan.health=5
+game.timespan.income=60

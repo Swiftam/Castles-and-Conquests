@@ -100,6 +100,7 @@ CastlesApp.HudView = Backbone.View.extend({
         this.model.bind("change:level", this.render, this);
         this.model.bind("change:xp", this.render, this);
         this.model.bind("change:income", this.render, this);
+        this.model.bind("change:netWorth", this.render, this);
         this.model.bind("reset", this.render, this);
         this.model.fetch();
     },
