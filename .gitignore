@@ -10,6 +10,7 @@ log
 logs
 test-result
 eclipse
+precompiled
 
 # Ignore important scripts
 deployhp.sh
