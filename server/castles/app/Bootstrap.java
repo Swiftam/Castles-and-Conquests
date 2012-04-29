@@ -14,9 +14,11 @@ public class Bootstrap extends Job {
         Fixtures.delete(Level.class);
         Fixtures.delete(Quest.class);
         Fixtures.delete(Land.class);
+        Fixtures.delete(Unit.class);
         Fixtures.loadModels("data-level.yml");
         Fixtures.loadModels("data-quest.yml");
         Fixtures.loadModels("data-land.yml");
+        Fixtures.loadModels("data-unit.yml");
     }
  
 }

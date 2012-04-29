@@ -6,16 +6,16 @@ header, section, nav, article {
 body {
 	background: #fff;
 	color: #003;
-	font-family: Arial, Helvetica, Sans-Serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #body {
-    width: 760px;
+    width: 745px;
     margin: 0 auto;
 }
 
 #hud span {
-    background: #66d;
+    /*background: #66d;*/
     width: 100px;
     padding: 15px 0;
     display: inline-block;

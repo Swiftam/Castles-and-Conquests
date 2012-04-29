@@ -15,6 +15,9 @@ var CastlesApp = {
 
         this.questList = new CastlesApp.QuestList();
         this.questList.fetch();
+
+        this.unitList = new CastlesApp.UnitList();
+        this.unitList.fetch();
     },
 
     initUserData: function() {
@@ -53,12 +56,25 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
         "lands/:id": "landDetails",
         "quests": "questListing",
         "quests/:id": "questDetails",
-        "profile": "profile"
+        "profile": "profile",
+        "army": "unitListing",
+        "army/:id": "unitDetails"
     },
 
     menu:function() {
         this.menuView = new CastlesApp.MenuView();
         $('#content').html(this.menuView.render().el);
+    },
+
+    unitListing:function() {
+        this.unitListView = new CastlesApp.UnitListView({model:CastlesApp.app.unitList});
+        $('#content').html(this.unitListView.render().el);
+    },
+
+    unitDetails:function(id) {
+        this.unit = CastlesApp.app.unitList.get(id);
+        this.unitView = new CastlesApp.UnitView({model:this.unit});
+        $('#content').html(this.unitView.render().el);
     },
 
     landListing:function() {
@@ -90,6 +106,8 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
 });
 
 CastlesApp.HudView = Backbone.View.extend({
+    renderCount: 0,
+
     tagName: 'div',
 
     template:_.template($('#tpl-hud').html()),
@@ -98,6 +116,7 @@ CastlesApp.HudView = Backbone.View.extend({
         this.model.bind("change:health", this.render, this);
         this.model.bind("change:healthMax", this.render, this);
         this.model.bind("change:level", this.render, this);
+        this.model.bind("change:level", this.level, this);
         this.model.bind("change:xp", this.render, this);
         this.model.bind("change:income", this.render, this);
         this.model.bind("change:netWorth", this.render, this);
@@ -105,7 +124,15 @@ CastlesApp.HudView = Backbone.View.extend({
         this.model.fetch();
     },
 
+    level: function() {
+        var level = parseInt( this.model.get('level') );
+        if ( this.renderCount > 1 && level > 1 ) {
+            alert('welcome to level ' + this.model.get('level'));
+        }
+    },
+
     render: function(eventName) {
+        this.renderCount++;
         $(this.el).empty();
         $(this.el).html(this.template(this.model.toJSON()));
         return this;

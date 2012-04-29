@@ -10,6 +10,8 @@ Application.yes=Yes
 Application.no=No
 Application.title=Castles and Conquests
 
+Application.army.moreinfo=More
+
 Application.land.title=Land
 Application.land.moreinfo=More
 Application.land.owned=Owned: %d

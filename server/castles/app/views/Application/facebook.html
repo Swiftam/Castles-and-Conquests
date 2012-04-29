@@ -1,3 +1,8 @@
 <script type="text/javascript">
+    #{if top}
 	top.location.href = "${url.raw()}";
+    #{/if}
+    #{else}
+    location.href = "${url.raw()}";
+    #{/else}
 </script>

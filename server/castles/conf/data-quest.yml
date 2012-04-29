@@ -5,6 +5,7 @@ Quest(fightOgre):
   power: 1
   minGold: 5
   maxGold: 10
+  image: /public/images/quests/ogre.png
 
 Quest(hideRefugees):
   name: Hide Refugees
@@ -13,3 +14,13 @@ Quest(hideRefugees):
   power: 2
   minGold: 6
   maxGold: 15
+  image: /public/images/quests/hideRefugees.png
+
+Quest(giant):
+  name: Escape the Giant
+  description: When caught unawares by a giant, you must distract it while your friends escape. RUN!
+  xp: 4
+  power: 3
+  minGold: 7
+  maxGold: 12
+  image: /public/images/quests/giant.png

@@ -1,9 +1,9 @@
 CastlesApp.Land = Backbone.Model.extend({
     defaults: {
-        "quantity": 0
+        'quantity': 0
     },
 
-    buy: function(quantity) {
+    buy: function() {
         var that = this;
         $.getJSON(this.url() + "/buy", {}, function(data) {
             that.trigger('buy:success', data);

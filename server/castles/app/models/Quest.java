@@ -15,4 +15,5 @@ public class Quest extends Model {
     public int power;
     public int minGold;
     public int maxGold;
+    public String image;
 }

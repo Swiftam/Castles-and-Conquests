@@ -84,7 +84,7 @@ public class UserTest extends UnitTest {
 		assertEquals("Morlinn", morlinn.name);
 
 		// Set the session
-		Session.current().put("userid", morlinn.id);
+		Session.current().put("snid", morlinn.snid);
 		
 		// Try getting the user
 		User result = User.locate();

@@ -2,8 +2,7 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
-import play.exceptions.JPAException;
-import play.exceptions.UnexpectedException;
+import play.mvc.Http;
 import play.mvc.Scope.Session;
 
 import javax.persistence.*;
@@ -11,6 +10,7 @@ import java.util.*;
 
 @Entity
 public class User extends Model {
+    @Column(unique = true)
     public String snid;
     public String name;
     public Long gold;
@@ -116,8 +116,9 @@ public class User extends Model {
     /**
      * Returns the next update in seconds
      *
-     * @return
+     * @return Time in seconds until then next update
      */
+    @SuppressWarnings("UnusedDeclaration")
     public long nextUpdate() {
         if ( health >= healthMax ) {
             return -1;
@@ -129,10 +130,11 @@ public class User extends Model {
     }
 
     /**
-     * Returns the next icome gain in seconds
+     * Returns the next income gain in seconds
      *
-     * @return
+     * @return Time in seconds until the next income gain
      */
+    @SuppressWarnings("UnusedDeclaration")
     public long nextIncome() {
         long diffInSeconds = secondsSinceLastIncome();
         long updateInterval = User.getUpdateInterval("game.timespan.income");
@@ -145,10 +147,11 @@ public class User extends Model {
     
     public static User locate(Long userid) {
     	Session session = Session.current();
-    	
+
     	if ( null == userid ) {
         	String sUserid = session.get("userid");
         	if ( null != sUserid ) {
+                Logger.info("Trying to find userid %s", sUserid);
         		return User.findById(Long.decode(sUserid));
         	}
 

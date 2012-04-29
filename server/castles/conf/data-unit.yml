@@ -1,0 +1,18 @@
+Unit(swordsman):
+  id: swordsman
+  name: Swordsman
+  defense: 0
+  offense: 1
+  price: 100
+  upkeep: 1
+  image: /public/images/units/swordsman.png
+
+
+Unit(archer):
+  id: archer
+  name: Archer
+  defense: 1
+  offense: 1
+  price: 250
+  upkeep: 1
+  image: /public/images/units/archer.png

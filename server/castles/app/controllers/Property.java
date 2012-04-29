@@ -38,27 +38,27 @@ public class Property extends Controller {
         renderJSON(lands);
     }
     
-    public static void info(Long landid) {
+    public static void info(String landId) {
     	// Need a valid land ID
-    	if ( null == landid ) {
+    	if ( null == landId ) {
     		index();
     		return;
     	}
 
-    	Land property = Land.findById(landid);
+    	Land property = Land.findById(landId);
     	render(property);
     }
     
-    public static void purchase(Long landid) {
+    public static void purchase(String landId) {
     	// Need a valid land ID
-    	if ( null == landid ) {
+    	if ( null == landId ) {
     		index();
     		return;
     	}
     	
     	User user = (User)renderArgs.get("user");
 
-    	Land land = Land.findById(landid);
+    	Land land = Land.findById(landId);
     	if ( null == land ) {
     		index();
     		return;

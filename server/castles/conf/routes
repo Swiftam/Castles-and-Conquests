@@ -9,8 +9,12 @@
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
+GET /register/?                                 Application.postUser
+
 GET /user/?                                     Application.userInfo
 GET /user/land/?                                Application.userLands
+
+GET /unit/?                                     Army.list
 
 GET /quest/?                                    Mission.list
 GET /quest/{questid}							Mission.info
@@ -18,8 +22,8 @@ GET /quest/{questid}/run						Mission.run
 
 # Lands and Properties
 GET /land/?                                     Property.list
-GET /land/{landid}								Property.info
-GET /land/{landid}/buy							Property.purchase
+GET /land/{landId}								Property.info
+GET /land/{landId}/buy							Property.purchase
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

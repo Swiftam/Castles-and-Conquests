@@ -1,13 +1,17 @@
 Land(swamp):
+  id: swamp
   name: Swamp
   level: 1
   price: 1000
   income: 10
   description: It doesn't get much better than this.
-  
+  image: /public/images/land/swamp.png
+
 Land(hut):
+  id: hunt
   name: Hut
   level: 1
   price: 1500
   income: 15
   description: Huts make good homes, if you're swamp-dwelling monsters.
+  image: /public/images/land/hut.png

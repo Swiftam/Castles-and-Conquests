@@ -6,12 +6,17 @@
     #{script 'user.js'/}
     #{script 'land.js'/}
     #{script 'quests.js'/}
+    #{script 'army.js'/}
     #{script 'kontagent_api.js'/}
+    #{if null == user }
+        #{script 'registration.js'/}
+    #{/if}
 #{/set}
 
 <div id="contentWindow">
     <div id="hud"></div>
     <ul id="menu">
+        <li><a href="#army" id="menuArmy">Army</a></li>
         <li><a href="#lands" id="menuLand">Land</a></li>
         <li><a href="#quests" id="menuQuests">Quests</a></li>
         <li><a href="#profile" id="menuProfile">Profile</a></li>
@@ -20,7 +25,8 @@
 </div>
 
 <script type="text/template" id="tpl-quest-list-item">
-    <section class="quest" data-role="collapsible">
+    <section class="quest" data-role="collapsible" style="clear: both">
+        <img src="<%= image %>" style="float: left" />
         <h2 class="quest-name">
             <a href="#quests/<%= id %>"><%= name %></a>
         </h2>
@@ -30,15 +36,17 @@
 </script>
 
 <script type="text/template" id="tpl-hud">
-    <span id="healthBar"><%= health %>/<%= healthMax %></span>
+    <span id="healthBar"><%= health %>/<%= healthMax %> <img src="/public/images/hud/health.png" alt="Health " /></span>
     <span id="levelBar">Level <%= level %></span>
-    <span id="goldBar">Gold: <%= gold %></span>
+    <span id="goldBar"><%= gold %> <img src="/public/images/hud/coins.png" alt="Gold " /></span>
     <span id="incomeBar">Income: <%= income %></span>
-    <span id="networthBar">Net Worth: <%= netWorth %></span>
+    <!--<span id="networthBar">Net Worth: <%= netWorth %></span>-->
 </script>
 
 <script type="text/template" id="tpl-quest-details">
     <h1>&{'Mission.info.title'}</h1>
+
+    <img src="<%= image %>" style="float: left" />
 
     <h2><%= name %></h2>
 
@@ -54,9 +62,10 @@
 </script>
 
 <script type="text/template" id="tpl-land-list-item">
-    <section class="land" data-role="collapsible">
+    <section class="land" data-role="collapsible" style="clear:both">
+        <img src="<%= image %>" style="float: left" />
         <h2 class="land-name">
-            <a href="#lands/<%- id %>"><%= name %></a>
+            <a href="#lands/<%= id %>"><%= name %></a>
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">Owned: <%= quantity %></span>
         </h2>
 
@@ -72,6 +81,8 @@
 
 <script type="text/template" id="tpl-land-details">
     <h1>&{'Property.info.title'}</h1>
+
+    <img src="<%= image %>" style="float: left" />
 
     <h2><%= name %></h2>
 
@@ -112,6 +123,43 @@
     </table>
 </script>
 
+<script type="text/template" id="tpl-unit-list-item">
+    <section class="unit" data-role="collapsible" style="clear: both">
+        <img src="<%= image %>" style="float: left" />
+        <h2 class="unit-name">
+            <a href="#army/<%= id %>"><%= name %></a>
+        </h2>
+
+        <p>Cost: <%= price %></p>
+
+        <p>Upkeep: <%= upkeep %></p>
+
+        <p>Power: <%= offense %>/<%= defense %></p>
+
+        <p><button onclick="location.href='#army/<%= id%>'">&{'Application.army.moreinfo'}</button></p>
+    </section>
+</script>
+
+<script type="text/template" id="tpl-unit-details">
+    <h2>Details</h2>
+    <img src="<%= image %>" style="float: left" />
+</script>
+
+<script type="text/template" id="tpl-registration">
+    <h1>&{'Application.register.title'}</h1>
+
+    #{form @Application.postUser(), id:'registerForm'}
+        <p>
+            <label for="name">&{'Application.register.form.name'}</label>
+            <input type="text" name="name" id="name" />
+        </p>
+
+        <p>
+            <input type="submit" value="&{'Application.register.form.submit'}" />
+        </p>
+    #{/form}
+</script>
+
 <script type="text/javascript">
     (function($) {
         $(document).ready(function() {
@@ -121,11 +169,25 @@
                 useTestServer: true
             });
 
+            #{if user}
             ktApi.trackPageRequest("${user.id}");
 
             window.app = CastlesApp.init({
                 kontagent: ktApi
             });
+            #{/if}
+            #{else}
+            CastlesApp.Registration.init({
+                kontagent: ktApi,
+                success: function(userId){
+                    ktApi.trackPageRequest(userId);
+
+                    window.app = CastlesApp.init({
+                        kontagent: ktApi
+                    });
+                }
+            });
+            #{/else}
         });
     })(jQuery);
 </script>

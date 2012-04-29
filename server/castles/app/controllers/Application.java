@@ -13,13 +13,16 @@ import utils.*;
 import models.*;
 
 public class Application extends Controller {
+    @Before
+    static void addHeaders() {
+        response.setHeader("p3p", "CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\")");
+    }
+
 	@Before(unless={"register","reset","postUser","facebook"})
 	static void validateUser() {
     	User user = User.locate();
     	
-    	if ( null == user ) {
-    		register();
-    	} else {
+    	if ( null != user ) {
     		user.update();
         	renderArgs.put("user", user);
     	}
@@ -45,24 +48,6 @@ public class Application extends Controller {
         renderJSON(lands);
     }
     
-    public static void reset(Boolean confirm) {
-    	if ( null == confirm ) {
-        	render();
-        	return;
-    	}
-    	
-    	User user = User.locate();
-    	if ( null != user ) {
-    		user.delete();
-    		session.remove("userid");
-    	}
-    	index();
-    }
-    
-    public static void settings() {
-    	render();
-    }
-    
     /**
      * Display lands available for purchase and
      * already owned
@@ -78,7 +63,7 @@ public class Application extends Controller {
     	
     	// Figure out how many of each land is owned by the user
     	List<UserLand> userLands = UserLand.find("user = ?", user).fetch();
-    	HashMap<Long,Integer> owned = new HashMap<Long,Integer>(); 
+    	HashMap<String,Integer> owned = new HashMap<String,Integer>();
     	for ( Land l : lands) {
     		for ( UserLand ul : userLands ) {
     			if ( ul.land.id == l.id ) {
@@ -118,8 +103,11 @@ public class Application extends Controller {
     	user.name = name;
         user.snid = snid;
     	user.save();
-    	session.put("userid", user.id);
-    	index();
+        Logger.info("Printing session at save time...");
+        for ( String key : session.all().keySet()) {
+            Logger.info("%s: %s", key, session.get(key));
+        }
+        renderJSON(user);
     }
     
     public static void facebook() {
@@ -134,15 +122,18 @@ public class Application extends Controller {
     	} catch ( FacebookRequestException frex ) {
     		userId = null;
     	}
-    	
+
+        Boolean top = true;
     	if ( null == userId ) {
     		//String currentPath = Request.current().getBase() + Request.current().url;
     		String appPath = Play.configuration.getProperty("fb.appPath");
     		String url = fb.getAuthorizeUrl(appPath);
-    		render(url);    
+    		render(url, top);
     	} else {
+            top = false;
     		session.put("snid", "fb_" + userId);
-            index();
+            String url = "/?snid=" + "fb_" + userId;
+            render(url, top);
     	}
     }
 }
