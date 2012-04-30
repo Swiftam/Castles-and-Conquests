@@ -71,13 +71,6 @@ CastlesApp.QuestListItemView = Backbone.View.extend({
     },
 
     questSuccess:function (eventData) {
-        /*
-        CastlesApp.app.user.set({
-            health: eventData.health,
-            healthMax: eventData.healthMax,
-            gold: eventData.gold
-        });
-        */
         CastlesApp.app.user.set(eventData);
     },
 

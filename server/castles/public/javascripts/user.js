@@ -17,7 +17,8 @@ CastlesApp.ProfileView = Backbone.View.extend({
     template: _.template($('#tpl-profile').html()),
 
     initialize:function() {
-        this.model.bind("change", this.render, this);
+        this.model.bind("change:xp", this.render, this);
+        this.model.bind("change:xpGoal", this.render, this);
     },
 
     render: function() {

@@ -15,3 +15,21 @@ Land(hut):
   income: 15
   description: Huts make good homes, if you're swamp-dwelling monsters.
   image: /public/images/land/hut.png
+
+Land(house):
+  id: house
+  name: House
+  level: 3
+  price: 3000
+  income: 30
+  description: Houses make better homes than huts.
+  image: /public/images/land/house.png
+
+Land(tent):
+  id: tent
+  name: Tent
+  level: 5
+  price: 4500
+  income: 45
+  description: Why live in a house when you can live in a tent?
+  image: /public/images/land/tent.png

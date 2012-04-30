@@ -6,5 +6,6 @@
     "healthMax": "${user.healthMax}",
     "xpGained": "${quest.xp}",
     "goldGained": "${goldGained}",
-    "gold": "${user.gold}"
+    "gold": "${user.gold}",
+    "xp": "${user.exp}"
 }

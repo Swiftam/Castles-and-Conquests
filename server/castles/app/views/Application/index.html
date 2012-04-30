@@ -7,10 +7,30 @@
     #{script 'land.js'/}
     #{script 'quests.js'/}
     #{script 'army.js'/}
+    #{script 'leaderboard.js'/}
     #{script 'kontagent_api.js'/}
     #{if null == user }
         #{script 'registration.js'/}
     #{/if}
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script>
+        FB.init({
+            appId : '191706917521174',
+            status : true, // check login status
+            cookie : true, // enable cookies to allow the server to access the session
+            xfbml : true // parse XFBML
+        });
+    </script>
+    <script type="text/javascript">
+        window.fbAsyncInit = function() {
+            FB.Canvas.setSize();
+        }
+
+        // Do things that will sometimes call sizeChangeCallback()
+        function sizeChangeCallback() {
+            FB.Canvas.setSize();
+        }
+    </script>
 #{/set}
 
 <div id="contentWindow">
@@ -20,6 +40,7 @@
         <li><a href="#lands" id="menuLand">Land</a></li>
         <li><a href="#quests" id="menuQuests">Quests</a></li>
         <li><a href="#profile" id="menuProfile">Profile</a></li>
+        <li><a href="#leaderboard" id="menuLeaderboard">Leaderboard</a></li>
     </ul>
     <div id="content"></div>
 </div>
@@ -94,6 +115,14 @@
             <li><a href="#lands" class="button">&{'Property.info.backButtonText'}</a></li>
         </ul>
     </menu>
+</script>
+
+<script type="text/template" id="tpl-leaderboard-list-item">
+    <tr>
+        <td><%= rank %></td>
+        <td><%= name %></td>
+        <td><%= netWorth %></td>
+    </tr>
 </script>
 
 <script type="text/template" id="tpl-profile">

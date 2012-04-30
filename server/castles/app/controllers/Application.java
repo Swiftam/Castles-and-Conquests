@@ -2,12 +2,14 @@ package controllers;
 
 import play.*;
 import play.cache.Cache;
+import play.cache.CacheFor;
 import play.mvc.*;
 import play.mvc.Http.Request;
 
 import java.util.*;
 
 import play.test.Fixtures;
+import results.Leader;
 import utils.*;
 
 import models.*;
@@ -108,6 +110,30 @@ public class Application extends Controller {
             Logger.info("%s: %s", key, session.get(key));
         }
         renderJSON(user);
+    }
+
+    static final Comparator<User> NETWORTH_ORDER =
+            new Comparator<User>() {
+                @Override
+                public int compare(User user, User user1) {
+                    return user.netWorth.compareTo(user1.netWorth);
+                }
+            };
+
+    @CacheFor("1h")
+    public static void leaderboard() {
+        List<User> users = User.findAll();
+        Collections.sort(users, NETWORTH_ORDER);
+        List<Leader> leaderBoard = new ArrayList<Leader>();
+        int rank = 1;
+        for ( User user : users ) {
+            Leader leader = new Leader();
+            leader.rank = rank++;
+            leader.name = user.name;
+            leader.netWorth = user.netWorth;
+            leaderBoard.add(leader);
+        }
+        renderJSON(leaderBoard);
     }
     
     public static void facebook() {

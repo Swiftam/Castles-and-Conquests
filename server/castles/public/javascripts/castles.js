@@ -1,14 +1,20 @@
 var CastlesApp = {
+    healthTimer: null,
+
     init: function() {
         CastlesApp.app = this;
         this.initGameData();
         this.initUserData();
         this.buildHud();
+        this.startLevel=null;
         var router = new CastlesApp.CastlesRouter();
         Backbone.history.start();
     },
 
     initGameData: function() {
+        this.leaderList = new CastlesApp.LeaderList();
+        this.leaderList.fetch();
+
         this.landList = new CastlesApp.LandList();
         this.landList.bind('reset', this.calculateIncome, this);
         this.landList.fetch();
@@ -22,10 +28,26 @@ var CastlesApp = {
 
     initUserData: function() {
         this.user = new CastlesApp.User();
+        this.user.bind("change:health", this.checkHealthTimer, this);
 
         this.userLands = new CastlesApp.UserLandList();
         this.userLands.bind('reset', this.calculateIncome, this);
         this.userLands.fetch();
+    },
+
+    // If the user's health is not the max, check again every once
+    // in awhile
+    checkHealthTimer: function() {
+        var health = parseInt(CastlesApp.app.user.get('health'));
+        var healthMax = parseInt(CastlesApp.app.user.get('healthMax'));
+        if ( health < healthMax && !CastlesApp.app.healthTimer ) {
+            setInterval(function() {
+                CastlesApp.app.user.fetch();
+            }, 30000);
+        } else if ( health >= healthMax ) {
+            clearInterval(CastlesApp.app.healthTimer);
+            CastlesApp.app.healthTimer = null;
+        }
     },
 
     calculateIncome: function() {
@@ -58,12 +80,26 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
         "quests/:id": "questDetails",
         "profile": "profile",
         "army": "unitListing",
-        "army/:id": "unitDetails"
+        "army/:id": "unitDetails",
+        "leaderboard": "leaderboard"
+    },
+
+    initialize:function() {
+        this.bind('all', function(trigger, args) {
+            if ( window.sizeChangeCallback ) {
+                window.sizeChangeCallback();
+            }
+        });
     },
 
     menu:function() {
         this.menuView = new CastlesApp.MenuView();
         $('#content').html(this.menuView.render().el);
+    },
+
+    leaderboard:function() {
+        this.leaderboard = new CastlesApp.LeaderboardListView({model:CastlesApp.app.leaderList});
+        $('#content').html(this.leaderboard.render().el);
     },
 
     unitListing:function() {
@@ -126,13 +162,13 @@ CastlesApp.HudView = Backbone.View.extend({
 
     level: function() {
         var level = parseInt( this.model.get('level') );
-        if ( this.renderCount > 1 && level > 1 ) {
+        if ( null != CastlesApp.app.startLevel && CastlesApp.app.startLevel != level ) {
             alert('welcome to level ' + this.model.get('level'));
         }
+        CastlesApp.app.startLevel = level;
     },
 
     render: function(eventName) {
-        this.renderCount++;
         $(this.el).empty();
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
