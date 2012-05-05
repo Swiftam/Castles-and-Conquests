@@ -41,3 +41,30 @@ body {
 #menu a:hover {
     background: #900;
 }
+
+#levelup {
+    background-color: #66e;
+    position: absolute;
+    top: 150px;
+    left: 50px;
+    z-index: 50;
+    width: 500px;
+    height: 300px;
+}
+
+#levelup img {
+    background-color: #fff;
+    border: 1px solid black;
+    float: left;
+    margin-left: 15px;
+    margin-top: 50px;
+}
+
+#levelup div {
+    float: left;
+    height: 70px;
+    left: 230px;
+    margin-top: 100px;
+    text-align: center;
+    width: 280px;
+}

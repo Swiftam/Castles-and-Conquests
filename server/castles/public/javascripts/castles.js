@@ -1,13 +1,32 @@
 var CastlesApp = {
+    sessionId: null,
+
+    router: null,
+
+    showLevelup: function(text) {
+        $("#levelup_text").text(text);
+        $("#levelup").show();
+    },
+
+    closeLevelup: function() {
+        $("#levelup").hide();
+    },
+
     healthTimer: null,
 
-    init: function() {
+    init: function(options) {
+        if ( options.kontagent ) {
+            this.kontagent = options.kontagent;
+        }
+        if ( options.sessionId ) {
+            this.sessionId = options.sessionId;
+        }
         CastlesApp.app = this;
         this.initGameData();
         this.initUserData();
         this.buildHud();
         this.startLevel=null;
-        var router = new CastlesApp.CastlesRouter();
+        this.router = new CastlesApp.CastlesRouter();
         Backbone.history.start();
     },
 
@@ -40,7 +59,7 @@ var CastlesApp = {
     checkHealthTimer: function() {
         var health = parseInt(CastlesApp.app.user.get('health'));
         var healthMax = parseInt(CastlesApp.app.user.get('healthMax'));
-        if ( health < healthMax && !CastlesApp.app.healthTimer ) {
+        if ( health < healthMax && null == CastlesApp.app.healthTimer ) {
             setInterval(function() {
                 CastlesApp.app.user.fetch();
             }, 30000);
@@ -163,7 +182,7 @@ CastlesApp.HudView = Backbone.View.extend({
     level: function() {
         var level = parseInt( this.model.get('level') );
         if ( null != CastlesApp.app.startLevel && CastlesApp.app.startLevel != level ) {
-            alert('welcome to level ' + this.model.get('level'));
+            CastlesApp.showLevelup('welcome to level ' + this.model.get('level'));
         }
         CastlesApp.app.startLevel = level;
     },

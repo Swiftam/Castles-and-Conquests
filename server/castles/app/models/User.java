@@ -3,6 +3,7 @@ package models;
 import play.*;
 import play.db.jpa.*;
 import play.mvc.Http;
+import play.mvc.Scope;
 import play.mvc.Scope.Session;
 
 import javax.persistence.*;
@@ -156,6 +157,10 @@ public class User extends Model {
         	}
 
 	    	String snid = session.get("snid");
+            if ( null == snid ) {
+                Scope.Params params = Http.Request.current().params;
+                snid = params.get("sessionId");
+            }
 	    	if ( null != snid ) {
 	    		return User.find("snid = ?", snid).first();
 	    	}
