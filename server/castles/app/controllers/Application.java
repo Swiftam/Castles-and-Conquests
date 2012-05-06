@@ -104,6 +104,9 @@ public class Application extends Controller {
     	User user = new User();
     	user.name = name;
         user.snid = snid;
+        if ( null == snid ) {
+            user.snid = "direct_" + UUID.randomUUID().toString();
+        }
     	user.save();
         Logger.info("Printing session at save time...");
         for ( String key : session.all().keySet()) {

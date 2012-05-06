@@ -8,7 +8,9 @@ CastlesApp.User = Backbone.Model.extend({
         'income': 0,
         'xp': 0,
         'xpGoal': 0, // XP to next level
-        'netWorth': 0
+        'netWorth': 0,
+
+        'feature_army': false
     },
     url: function() { return "/user/?sessionId=" + CastlesApp.app.sessionId; }
 });

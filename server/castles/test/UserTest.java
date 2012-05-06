@@ -26,15 +26,6 @@ public class UserTest extends UnitTest {
 	}
 	
 	@Test
-	public void locateInvalidUser() {
-		long userId = 230984;
-		User user = User.locate(userId);
-		
-		// Test
-		assertNull(user);
-	}
-	
-	@Test
 	public void userLevel() {
 		// Create a new user and save it
 		new User("Morlinn").save();

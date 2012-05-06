@@ -5,7 +5,7 @@ CastlesApp.Land = Backbone.Model.extend({
 
     buy: function() {
         var that = this;
-        $.getJSON(this.url() + "/buy", {}, function(data) {
+        $.getJSON(this.url() + "/buy", {sessionId: CastlesApp.app.sessionId}, function(data) {
             that.trigger('buy:success', data);
         }).error(function(data) {
             that.trigger('buy:fail', data);
@@ -19,12 +19,12 @@ CastlesApp.UserLand = Backbone.Model.extend();
 CastlesApp.LandList = Backbone.Collection.extend({
     model: CastlesApp.Land,
 
-    url: function() { return "/land"; }
+    url: function() { return "/land/?sessionId=" + CastlesApp.app.sessionId; }
 });
 
 CastlesApp.UserLandList = Backbone.Collection.extend({
     model: CastlesApp.UserLand,
-    url: function() { return "/user/land"; }
+    url: function() { return "/user/land/?sessionId=" + CastlesApp.app.sessionId; }
 });
 
 CastlesApp.LandView = Backbone.View.extend({

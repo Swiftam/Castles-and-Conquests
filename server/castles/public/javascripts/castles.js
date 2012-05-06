@@ -86,7 +86,10 @@ var CastlesApp = {
 
     buildHud: function() {
         this.hud = new CastlesApp.HudView({model: this.user});
-        $('#hud').html(this.hud.render().el);
+        $('#hud').html(this.hud.render(null).el);
+
+        this.menu = new CastlesApp.MenuView({model: this.user});
+        $('#menu').html(this.menu.render().el);
     }
 };
 
@@ -104,32 +107,27 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
     },
 
     initialize:function() {
-        this.bind('all', function(trigger, args) {
-            if ( window.sizeChangeCallback ) {
+        if ( window.sizeChangeCallback ) {
+            this.bind('all', function(trigger, args) {
                 window.sizeChangeCallback();
-            }
-        });
-    },
-
-    menu:function() {
-        this.menuView = new CastlesApp.MenuView();
-        $('#content').html(this.menuView.render().el);
+            });
+        }
     },
 
     leaderboard:function() {
-        this.leaderboard = new CastlesApp.LeaderboardListView({model:CastlesApp.app.leaderList});
-        $('#content').html(this.leaderboard.render().el);
+        this.leaderboardView = new CastlesApp.LeaderboardListView({model:CastlesApp.app.leaderList});
+        $('#content').html(this.leaderboardView.render(null).el);
     },
 
     unitListing:function() {
         this.unitListView = new CastlesApp.UnitListView({model:CastlesApp.app.unitList});
-        $('#content').html(this.unitListView.render().el);
+        $('#content').html(this.unitListView.render(null).el);
     },
 
     unitDetails:function(id) {
         this.unit = CastlesApp.app.unitList.get(id);
         this.unitView = new CastlesApp.UnitView({model:this.unit});
-        $('#content').html(this.unitView.render().el);
+        $('#content').html(this.unitView.render(null).el);
     },
 
     landListing:function() {
@@ -157,6 +155,22 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
     profile:function() {
         this.profileView = new CastlesApp.ProfileView({model:CastlesApp.app.user});
         $('#content').html(this.profileView.render().el);
+    }
+});
+
+CastlesApp.MenuView = Backbone.View.extend({
+    tagName: 'div',
+
+    template:_.template($('#tpl-menu').html()),
+
+    initialize: function() {
+        this.model.bind("reset", this.render, this);
+    },
+
+    render: function() {
+        $(this.el).empty();
+        $(this.el).html(this.template(this.model.toJSON()));
+        return this;
     }
 });
 
@@ -190,18 +204,6 @@ CastlesApp.HudView = Backbone.View.extend({
     render: function(eventName) {
         $(this.el).empty();
         $(this.el).html(this.template(this.model.toJSON()));
-        return this;
-    }
-});
-
-
-CastlesApp.MenuView = Backbone.View.extend({
-    tagName: 'ul',
-
-    initialize: function() {
-    },
-
-    render: function(eventName) {
         return this;
     }
 });

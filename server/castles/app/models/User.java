@@ -143,32 +143,13 @@ public class User extends Model {
     }
 
     public static User locate() {
-    	return locate(null);
-    }
-    
-    public static User locate(Long userid) {
-    	Session session = Session.current();
-
-    	if ( null == userid ) {
-        	String sUserid = session.get("userid");
-        	if ( null != sUserid ) {
-                Logger.info("Trying to find userid %s", sUserid);
-        		return User.findById(Long.decode(sUserid));
-        	}
-
-	    	String snid = session.get("snid");
-            if ( null == snid ) {
-                Scope.Params params = Http.Request.current().params;
-                snid = params.get("sessionId");
-            }
-	    	if ( null != snid ) {
-	    		return User.find("snid = ?", snid).first();
-	    	}
+        Scope.Params params = Http.Request.current().params;
+        String snid = params.get("sessionId");
+        if ( null != snid ) {
+            return User.find("snid = ?", snid).first();
+        }
 	    	
-	    	return null;
-    	}
-    	
-    	return User.findById(userid);
+        return null;
     }
     
     /**

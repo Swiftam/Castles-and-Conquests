@@ -5,7 +5,7 @@ CastlesApp.Quest = Backbone.Model.extend({
 
     run: function(cb) {
         var sender = this;
-        $.getJSON(this.url() + "/run", {}, function(data) {
+        $.getJSON(this.url() + "/run", {sessionId: CastlesApp.app.sessionId}, function(data) {
             sender.trigger('run:success', data);
         }).error(function(data) {
             sender.trigger('run:fail', data);
@@ -15,7 +15,7 @@ CastlesApp.Quest = Backbone.Model.extend({
 
 CastlesApp.QuestList = Backbone.Collection.extend({
     model: CastlesApp.Quest,
-    url: function() { return "/quest"; }
+    url: function() { return "/quest/?sessionId=" + CastlesApp.app.sessionId; }
 });
 
 CastlesApp.QuestView = Backbone.View.extend({

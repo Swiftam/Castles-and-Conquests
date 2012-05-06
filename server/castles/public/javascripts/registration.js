@@ -22,10 +22,9 @@ CastlesApp.Registration.RegistrationView = Backbone.View.extend({
         $.getJSON("/register", {
             name: nameField.val()
         }, function(data) {
-            alert(data.snid);
             window.app = CastlesApp.init({
                 sessionId: data.snid,
-                kontagent: ktApi
+                kontagent: CastlesApp.Registration.kontagent
             });
         }).error(function(data) {
             alert('register failed');

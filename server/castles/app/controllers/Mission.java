@@ -15,7 +15,7 @@ public class Mission extends Controller {
     	User user = User.locate();
     	
     	if ( null == user ) {
-    		Application.register();
+    		error(401, "User not found");
     	} else {
     		user.update();
         	renderArgs.put("user", user);
