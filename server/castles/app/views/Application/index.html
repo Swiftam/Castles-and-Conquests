@@ -208,17 +208,20 @@
             ktApi.trackPageRequest("${user.id}");
 
             window.app = CastlesApp.init({
-                kontagent: ktApi
+                kontagent: ktApi,
+                sessionId: '${sessionId}'
             });
             #{/if}
             #{else}
             CastlesApp.Registration.init({
                 kontagent: ktApi,
+                sessionId: '${sessionId}',
                 success: function(userId){
                     ktApi.trackPageRequest(userId);
 
                     window.app = CastlesApp.init({
-                        kontagent: ktApi
+                        kontagent: ktApi,
+                        sessionId: '${sessionId}'
                     });
                 }
             });

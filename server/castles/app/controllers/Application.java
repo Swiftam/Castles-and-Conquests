@@ -31,11 +31,24 @@ public class Application extends Controller {
 	}
 
 	public static void index() {
-    	render();
+        User user = null;
+        String snid = null;
+        String sessionId = params.get("sessionId");
+        if ( null != sessionId ) {
+            snid = play.cache.Cache.get(sessionId).toString();
+            if ( null != snid ) {
+                user = User.find("snid = ?", snid).first();
+            }
+        }
+    	render(sessionId, user);
     }
     
     public static void userInfo() {
         User user = (User)renderArgs.get("user");
+        if ( null == user ) {
+            error(401, "Invalid user");
+            return;
+        }
         Level level = Level.findById(user.level);
 
         notFoundIfNull(user);
@@ -99,14 +112,19 @@ public class Application extends Controller {
     /**
      * Process registration form
      */
-    public static void postUser(String name) {
-    	String snid = session.get("snid");
-    	User user = new User();
+    public static void postUser(String name, String sessionId) {
+        String snid = null;
+        if ( null != sessionId ) {
+            snid = play.cache.Cache.get(sessionId).toString();
+        }
+
+        if ( null == snid || snid.trim().isEmpty() || snid.equals("null") ) {
+            snid = "direct_" + UUID.randomUUID().toString();
+        }
+
+        User user = new User();
     	user.name = name;
         user.snid = snid;
-        if ( null == snid ) {
-            user.snid = "direct_" + UUID.randomUUID().toString();
-        }
     	user.save();
         Logger.info("Printing session at save time...");
         for ( String key : session.all().keySet()) {
@@ -123,7 +141,7 @@ public class Application extends Controller {
                 }
             };
 
-    @CacheFor("1h")
+    //@CacheFor("1h")
     public static void leaderboard() {
         List<User> users = User.findAll();
         Collections.sort(users, NETWORTH_ORDER);
@@ -154,14 +172,14 @@ public class Application extends Controller {
 
         Boolean top = true;
     	if ( null == userId ) {
-    		//String currentPath = Request.current().getBase() + Request.current().url;
     		String appPath = Play.configuration.getProperty("fb.appPath");
     		String url = fb.getAuthorizeUrl(appPath);
     		render(url, top);
     	} else {
             top = false;
-    		session.put("snid", "fb_" + userId);
-            String url = "/?snid=" + "fb_" + userId;
+            String sessionId = UUID.randomUUID().toString();
+            Cache.set(sessionId, "fb_" + userId);
+            String url = "/?sessionId=" + sessionId;
             render(url, top);
     	}
     }

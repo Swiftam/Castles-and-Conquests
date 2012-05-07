@@ -2,6 +2,7 @@ package models;
 
 import play.*;
 import play.db.jpa.*;
+import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Scope;
 import play.mvc.Scope.Session;
@@ -144,11 +145,14 @@ public class User extends Model {
 
     public static User locate() {
         Scope.Params params = Http.Request.current().params;
-        String snid = params.get("sessionId");
-        if ( null != snid ) {
-            return User.find("snid = ?", snid).first();
+        String sessionId = params.get("sessionId");
+        if ( null != sessionId ) {
+            Object snid = play.cache.Cache.get(sessionId);
+            if ( null != snid ) {
+                return User.find("snid = ?", snid.toString()).first();
+            }
         }
-	    	
+
         return null;
     }
     
