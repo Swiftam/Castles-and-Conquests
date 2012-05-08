@@ -28,11 +28,11 @@ CastlesApp.UnitView = Backbone.View.extend({
 
     buy:function () {
         if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
-            alert("You can't buy this");
+            CastlesApp.app.showLevelup("You can't buy this.");
             return;
         }
 
-        //this.model.buy(1);
+        this.model.buy(1);
     },
 
     render:function (eventName) {

@@ -37,7 +37,7 @@ CastlesApp.QuestView = Backbone.View.extend({
         if ( this.canRunQuest() ) {
             this.model.run();
         } else {
-            alert("I can't let you do that, Dave");
+            CastlesApp.app.showLevelup("You're too hurt, for that.");
         }
     },
 
@@ -75,7 +75,7 @@ CastlesApp.QuestListItemView = Backbone.View.extend({
     },
 
     questFail:function (eventName) {
-        alert('quest failed');
+        CastlesApp.app.showLevelup('quest failed');
     },
 
     render:function (eventName) {

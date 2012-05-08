@@ -6,10 +6,12 @@ var CastlesApp = {
     showLevelup: function(text) {
         $("#levelup_text").text(text);
         $("#levelup").show();
+        $("#loverlay").fadeIn();
     },
 
     closeLevelup: function() {
         $("#levelup").hide();
+        $("#loverlay").fadeOut();
     },
 
     healthTimer: null,
@@ -27,6 +29,12 @@ var CastlesApp = {
         this.buildHud();
         this.startLevel=null;
         this.router = new CastlesApp.CastlesRouter();
+
+        // TODO: Refactor this
+        $("#loverlay").click(function() {
+            CastlesApp.app.closeLevelup();
+        });
+
         Backbone.history.start();
     },
 

@@ -52,7 +52,7 @@ CastlesApp.LandView = Backbone.View.extend({
     buy:function () {
         var sender = this;
         if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
-            alert("You can't buy this");
+            CastlesApp.app.showLevelup("You can't buy this");
             return;
         }
 

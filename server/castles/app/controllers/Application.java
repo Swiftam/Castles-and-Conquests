@@ -20,7 +20,7 @@ public class Application extends Controller {
         response.setHeader("p3p", "CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\")");
     }
 
-	@Before(unless={"register","reset","postUser","facebook"})
+	@Before(unless={"register","postUser","facebook"})
 	static void validateUser() {
     	User user = User.locate();
     	
