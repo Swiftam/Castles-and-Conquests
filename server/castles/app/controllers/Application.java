@@ -1,18 +1,20 @@
 package controllers;
 
-import play.*;
+import models.Land;
+import models.Level;
+import models.Quest;
+import models.User;
+import play.Logger;
+import play.Play;
 import play.cache.Cache;
-import play.cache.CacheFor;
-import play.mvc.*;
-import play.mvc.Http.Request;
+import play.libs.WS;
+import play.mvc.Before;
+import play.mvc.Controller;
+import results.Leader;
+import utils.Facebook;
+import utils.FacebookRequestException;
 
 import java.util.*;
-
-import play.test.Fixtures;
-import results.Leader;
-import utils.*;
-
-import models.*;
 
 public class Application extends Controller {
     @Before
@@ -57,12 +59,6 @@ public class Application extends Controller {
         render(user, level);
     }
     
-    public static void userLands() {
-        User user = (User)renderArgs.get("user");
-        List<UserLand> lands  = UserLand.find("user = ?", user).fetch();
-        renderJSON(lands);
-    }
-    
     /**
      * Display lands available for purchase and
      * already owned
@@ -76,22 +72,7 @@ public class Application extends Controller {
     		Cache.set("lands", lands, "1h");
     	}
     	
-    	// Figure out how many of each land is owned by the user
-    	List<UserLand> userLands = UserLand.find("user = ?", user).fetch();
-    	HashMap<String,Integer> owned = new HashMap<String,Integer>();
-    	for ( Land l : lands) {
-    		for ( UserLand ul : userLands ) {
-    			if ( ul.land.id == l.id ) {
-    				owned.put(l.id, ul.quantity);
-    				break;
-    			}
-    		}
-    		
-    		if ( null == owned.get(l.id)) {
-    			owned.put(l.id, 0);
-    		}
-    	}
-    	render(lands, owned);
+    	render(lands);
     }
     
     /**
@@ -114,12 +95,17 @@ public class Application extends Controller {
      */
     public static void postUser(String name, String sessionId) {
         String snid = null;
-        if ( null != sessionId ) {
+        if ( null == name || name.trim().isEmpty() ) {
+            error(400, "You need to supply a name");
+        }
+        if ( null != sessionId && !sessionId.equals("null") ) {
             snid = play.cache.Cache.get(sessionId).toString();
         }
 
         if ( null == snid || snid.trim().isEmpty() || snid.equals("null") ) {
             snid = "direct_" + UUID.randomUUID().toString();
+            sessionId = UUID.randomUUID().toString();
+            play.cache.Cache.set(sessionId, snid);
         }
 
         User user = new User();
@@ -130,7 +116,9 @@ public class Application extends Controller {
         for ( String key : session.all().keySet()) {
             Logger.info("%s: %s", key, session.get(key));
         }
-        renderJSON(user);
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("snid", sessionId);
+        renderJSON(map);
     }
 
     static final Comparator<User> NETWORTH_ORDER =
@@ -167,6 +155,7 @@ public class Application extends Controller {
     	try {
         	userId = fb.getUserId();
     	} catch ( FacebookRequestException frex ) {
+            Logger.error(frex.getMessage());
     		userId = null;
     	}
 
@@ -176,11 +165,49 @@ public class Application extends Controller {
     		String url = fb.getAuthorizeUrl(appPath);
     		render(url, top);
     	} else {
+            Logger.info("Logging application add to Kontagent");
+            String kApi = Play.configuration.getProperty("kontagent.apikey");
+            String kServer = Play.configuration.getProperty("kontagent.server");
+            String kAprUrl = String.format("%s/api/v1/%s/apa/", kServer, kApi);
+            WS.WSRequest wsRequest = WS.url(kAprUrl);
+            wsRequest.parameters.put("s", userId);
+            wsRequest.getAsync();
+
             top = false;
             String sessionId = UUID.randomUUID().toString();
             Cache.set(sessionId, "fb_" + userId);
             String url = "/?sessionId=" + sessionId;
             render(url, top);
     	}
+    }
+
+    public static void facebookUninstall()
+    {
+        Logger.info("Facebook deauthorize request");
+        String req = params.get("signed_request");
+        String appId = Play.configuration.getProperty("fb.appId");
+        String secret = Play.configuration.getProperty("fb.appSecret");
+        Facebook fb = new Facebook(appId, secret, req);
+        String userId;
+
+        try {
+            userId = fb.getUserId();
+        } catch ( FacebookRequestException frex ) {
+            Logger.error(frex.getMessage());
+            userId = null;
+        }
+
+        if ( null != userId ) {
+            Logger.info("De-authorization accepted");
+            String kApi = Play.configuration.getProperty("kontagent.apikey");
+            String kServer = Play.configuration.getProperty("kontagent.server");
+            String kAprUrl = String.format("%s/api/v1/%s/apr/", kServer, kApi);
+            WS.WSRequest wsRequest = WS.url(kAprUrl);
+            wsRequest.parameters.put("s", userId);
+            wsRequest.getAsync();
+
+            ok();
+        }
+        error(400, "Could not understand");
     }
 }

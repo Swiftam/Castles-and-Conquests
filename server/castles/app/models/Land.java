@@ -7,8 +7,11 @@ import javax.persistence.Id;
 
 @Entity
 public class Land extends GenericModel {
+    public static String DEFAULT = "swamp";
+
     @Id
     public String id;
+    public String parent;
 	public String name;
 	public long price;
 	public long income;

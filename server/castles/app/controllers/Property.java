@@ -1,14 +1,13 @@
 package controllers;
 
-import play.*;
+import com.google.gson.Gson;
+import models.Land;
+import models.User;
 import play.cache.Cache;
-import play.mvc.*;
-import play.mvc.Http.Request;
+import play.mvc.Before;
+import play.mvc.Controller;
 
-import java.util.*;
-import utils.*;
-
-import models.*;
+import java.util.List;
 
 public class Property extends Controller {
 	@Before
@@ -49,7 +48,7 @@ public class Property extends Controller {
     	render(property);
     }
     
-    public static void purchase(String landId) {
+    public static void purchase(String landId, Integer indexNum) {
     	// Need a valid land ID
     	if ( null == landId ) {
     		index();
@@ -67,19 +66,19 @@ public class Property extends Controller {
         if ( land.price > user.gold ) {
             error(403, "Not enough gold");
         }
-    	
-    	UserLand property = UserLand.find("user = ? and land = ?", user, land).first();
-    	if ( null == property ) {
-    		property = new UserLand(user, land);
-    	} else {
-    		property.quantity++;
-    	}
-    	property.save();
 
+        String[] lands = new Gson().fromJson(user.lands, String[].class);
+        String parentLand = lands[indexNum];
+        if ( !land.parent.equals(parentLand)) {
+            error(403, "Parent land is not a match");
+        }
+
+        lands[indexNum] = land.id;
+        user.lands = new Gson().toJson(lands);
         user.gold -= land.price;
         user.calculateNetWorth();
         user.save();
 
-        render(property);
+        render(land);
     }
 }

@@ -1,0 +1,5 @@
+# Application dependencies
+
+require:
+    - play
+    - joda-time -> joda-time-hibernate 1.3

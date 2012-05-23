@@ -3,9 +3,9 @@ CastlesApp.Land = Backbone.Model.extend({
         'quantity': 0
     },
 
-    buy: function() {
+    buy: function(pos) {
         var that = this;
-        $.getJSON(this.url() + "/buy", {sessionId: CastlesApp.app.sessionId}, function(data) {
+        $.getJSON(this.url() + "/buy", {sessionId: CastlesApp.app.sessionId, indexNum: pos}, function(data) {
             that.trigger('buy:success', data);
         }).error(function(data) {
             that.trigger('buy:fail', data);
@@ -14,7 +14,6 @@ CastlesApp.Land = Backbone.Model.extend({
 
     url: function() { return "/land/" + this.id; }
 });
-CastlesApp.UserLand = Backbone.Model.extend();
 
 CastlesApp.LandList = Backbone.Collection.extend({
     model: CastlesApp.Land,
@@ -25,6 +24,48 @@ CastlesApp.LandList = Backbone.Collection.extend({
 CastlesApp.UserLandList = Backbone.Collection.extend({
     model: CastlesApp.UserLand,
     url: function() { return "/user/land/?sessionId=" + CastlesApp.app.sessionId; }
+});
+
+CastlesApp.UserLandListView = Backbone.View.extend({
+    tagName: 'div',
+
+    initialize: function() {
+        this.model.bind('change:lands', this.render, this);
+    },
+
+    render: function(eventArgs) {
+        var userLands = this.model.get('lands');
+        var nLen = Math.min(CastlesApp.app.maxLands,userLands.length);
+        $(this.el).empty();
+        for ( var i=0; i < nLen; i++ ) {
+            var land = CastlesApp.landList.get(userLands[i]);
+            var userLandItem = new CastlesApp.UserLandListItemView({model:land});
+            userLandItem.indexNum = i;
+            $(this.el).append(userLandItem.render().el);
+        }
+        return this;
+    }
+});
+
+CastlesApp.UserLandListItemView = Backbone.View.extend({
+    template: _.template($('#tpl-userland-list-item').html()),
+
+    events: {
+        "click": "info"
+    },
+
+    info: function() {
+        var upgradeLandListView = new CastlesApp.LandListView({model:CastlesApp.app.landList});
+        $("#landupgrade").fadeIn();
+        upgradeLandListView.parentLand = this.model.get('id');
+        upgradeLandListView.indexNum = this.indexNum;
+        $("#landupgrade-list").html(upgradeLandListView.render().el);
+    },
+
+    render:function () {
+        $(this.el).html(this.template(this.model.toJSON()));
+        return this;
+    }
 });
 
 CastlesApp.LandView = Backbone.View.extend({
@@ -41,7 +82,6 @@ CastlesApp.LandView = Backbone.View.extend({
 
     buySuccess: function(data) {
         CastlesApp.app.user.fetch();
-        CastlesApp.app.userLands.fetch();
         this.trigger("land:buy:success", data);
     },
 
@@ -52,7 +92,11 @@ CastlesApp.LandView = Backbone.View.extend({
     buy:function () {
         var sender = this;
         if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
-            CastlesApp.app.showLevelup("You can't buy this");
+            var landfailView = new CastlesApp.LandfailDialogView({model:{
+                price: this.model.get('price')
+            }});
+            $('#levelup').html(landfailView.render().el);
+            CastlesApp.app.showLevelup();
             return;
         }
 
@@ -77,10 +121,14 @@ CastlesApp.LandListView = Backbone.View.extend({
         this.render();
     },
 
-    render: function(eventName) {
+    render: function() {
         $(this.el).empty();
         _.each(this.model.models, function ( land ) {
-            $(this.el).append(new CastlesApp.LandListItemView({model:land}).render().el)
+            if ( land.get('parent') == this.parentLand) {
+                var landListItemView = new CastlesApp.LandListItemView({model:land});
+                landListItemView.indexNum = this.indexNum;
+                $(this.el).append(landListItemView.render().el)
+            }
         }, this);
         return this;
     }
@@ -90,14 +138,39 @@ CastlesApp.LandListItemView = Backbone.View.extend({
     template:_.template($('#tpl-land-list-item').html()),
 
     events: {
-        "click .buy": "buy"
+        "click button": "buy"
+    },
+
+    initialize: function() {
+        this.model.bind("buy:success", this.buySuccess, this);
+        this.model.bind("buy:fail", this.buyFail, this);
+    },
+
+    buySuccess: function(data) {
+        CastlesApp.app.user.fetch();
+        this.trigger("land:buy:success", data);
+        $("#landupgrade").fadeOut();
+    },
+
+    buyFail: function(data) {
+        this.trigger("land:buy:fail", data);
     },
 
     buy:function () {
-        this.model.buy(1);
+        var sender = this;
+        if ( this.model.get('price') > CastlesApp.app.user.get('gold')) {
+            var landfailView = new CastlesApp.LandfailDialogView({model:{
+                price: this.model.get('price')
+            }});
+            $('#levelup').html(landfailView.render().el);
+            CastlesApp.app.showLevelup();
+            return;
+        }
+
+        this.model.buy(this.indexNum);
     },
 
-    render:function (eventName) {
+    render:function () {
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }

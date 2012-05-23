@@ -1,32 +1,32 @@
 Level(newbie):
   name: Newbie
   id: 1
-  xp: 5
+  xp: 15
 
 Level(student):
   name: Student
   id: 2
-  xp: 5
+  xp: 30
 
 Level(freshman):
   name: Freshman
   id: 3
-  xp: 10
+  xp: 45
 
 Level(sophomore):
   name: Sophomore
   id: 4
-  xp: 25
+  xp: 60
 
 Level(junior):
   name: Junior
   id: 5
-  xp: 50
+  xp: 75
 
 Level(senior):
   name: Senior
   id: 6
-  xp: 80
+  xp: 95
 
 Level(graduate):
   name: Graduate

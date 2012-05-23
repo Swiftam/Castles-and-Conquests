@@ -7,6 +7,7 @@
     #{script 'land.js'/}
     #{script 'quests.js'/}
     #{script 'army.js'/}
+    #{script 'popups.js'/}
     #{script 'leaderboard.js'/}
     #{script 'kontagent_api.js'/}
     #{if null == user }
@@ -27,7 +28,7 @@
         }
 
         // Do things that will sometimes call sizeChangeCallback()
-        function sizeChangeCallback() {
+        window.sizeChangeCallback = function() {
             FB.Canvas.setSize();
         }
     </script>
@@ -68,6 +69,9 @@
     <span id="goldBar"><%= gold %> <img src="/public/images/hud/coins.png" alt="Gold " /></span>
     <span id="incomeBar">Income: <%= income %></span>
     <!--<span id="networthBar">Net Worth: <%= netWorth %></span>-->
+    <span id="xpBar">
+        <div id="xpProgress" style="border: 1px solid black; width: 200px; height: 25px;"><div id="xpProgressIndicator" style="background-color:green;height:100%;width:50%;"></div></div>
+    </span>
 </script>
 
 <script type="text/template" id="tpl-quest-details">
@@ -88,12 +92,18 @@
     </menu>
 </script>
 
+<script type="text/template" id="tpl-userland-list-item">
+    <div class="userland">
+        <%= name %></a><br />
+        <img src="<%= image %>" />
+    </div>
+</script>
+
 <script type="text/template" id="tpl-land-list-item">
     <section class="land" data-role="collapsible" style="clear:both">
         <img src="<%= image %>" style="float: left" />
         <h2 class="land-name">
             <a href="#lands/<%= id %>"><%= name %></a>
-            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">Owned: <%= quantity %></span>
         </h2>
 
         <p><%= description %></p>
@@ -102,7 +112,7 @@
 
         <p>Income: <%= income %></p>
 
-        <p><button onclick="location.href='#lands/<%= id%>'">&{'Application.land.moreinfo'}</button></p>
+        <p><button>Buy This One</button></p>
     </section>
 </script>
 
@@ -195,6 +205,54 @@
     #{/form}
 </script>
 
+<script type="text/template" id="tpl-popup-levelup">
+    <img src="/public/images/dialogs/levelup.png"/>
+
+    <div class="content">
+        <h2>Level Up</h2>
+
+        <p>Welcome to level <%= level %>!</p>
+
+        <p><button onclick="javascript:CastlesApp.closeLevelup();">Close</button></p>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-popup-landfail">
+    <img src="/public/images/dialogs/levelup.png"/>
+
+    <div class="content">
+        <h2>No Money!</h2>
+
+        <p>You can't buy this!</p>
+
+        <p><button onclick="javascript:CastlesApp.closeLevelup();">Close</button></p>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-popup-questfail">
+    <img src="/public/images/dialogs/levelup.png"/>
+
+    <div class="content">
+        <h2>Quest Failed!</h2>
+
+        <p>Whyyy?!?!?!</p>
+
+        <p><button onclick="javascript:CastlesApp.closeLevelup();">Close</button></p>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-popup-questhurt">
+    <img src="/public/images/dialogs/levelup.png"/>
+
+    <div class="content">
+        <h2>OUCH!</h2>
+
+        <p>You're too hurt, for that.</p>
+
+        <p><button onclick="javascript:CastlesApp.closeLevelup();">Close</button></p>
+    </div>
+</script>
+
 <script type="text/javascript">
     (function($) {
         $(document).ready(function() {
@@ -230,15 +288,12 @@
     })(jQuery);
 </script>
 
-<div id="loverlay" style="display:none;"></div>
-<div id="levelup" style="display: none;">
-    <img src="/public/images/dialogs/levelup.png"/>
+<div id="landupgrade" style="display:none">
+    <h1>Upgrade this Land</h1>
 
-    <div>
-        <h2>Level Up</h2>
+    <div id="landupgrade-list"></div>
 
-        <p id="levelup_text">Welcome to level 5!</p>
-
-        <p><button onclick="javascript:CastlesApp.closeLevelup();">Close</button></p>
-    </div>
+    <p><a href="#" onclick="$('#landupgrade').fadeOut();return false;">Nevermind</a></p>
 </div>
+<div id="loverlay" style="display:none;"></div>
+<div id="levelup" style="display: none;"></div>

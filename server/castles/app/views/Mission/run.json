@@ -7,5 +7,6 @@
     "xpGained": "${quest.xp}",
     "goldGained": "${goldGained}",
     "gold": "${user.gold}",
-    "xp": "${user.exp}"
+    "xp": "${user.exp}",
+    "xpGoal": "${level.xp}"
 }

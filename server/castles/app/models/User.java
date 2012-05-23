@@ -1,14 +1,17 @@
 package models;
 
-import play.*;
-import play.db.jpa.*;
-import play.mvc.Controller;
+import com.google.gson.Gson;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import play.Play;
+import play.db.jpa.Model;
 import play.mvc.Http;
 import play.mvc.Scope;
-import play.mvc.Scope.Session;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import java.util.Random;
+import java.util.UUID;
 
 @Entity
 public class User extends Model {
@@ -19,11 +22,16 @@ public class User extends Model {
     public Long exp;
     public Long health;
     public Long healthMax;
-    public Calendar created;
-    public Calendar lastIncome;
-    public Calendar lastUpdate;
+    @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+    public DateTime created;
+    @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+    public DateTime lastIncome;
+    @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+    public DateTime lastUpdate;
     public Integer level;
     public Long netWorth;
+
+    public String lands;
     
     public User()
     {
@@ -40,10 +48,15 @@ public class User extends Model {
     	this.health = 20L;
     	this.healthMax = 20L;
     	this.level = 1;
-    	this.lastUpdate = Calendar.getInstance();
-        this.lastIncome = Calendar.getInstance();
-        this.created = Calendar.getInstance();
+    	this.lastUpdate = DateTime.now();
+        this.lastIncome = DateTime.now();
+        this.created = DateTime.now();
         this.netWorth = 34L;
+        this.lands = new Gson().toJson(new String[] {
+                Land.DEFAULT, Land.DEFAULT, Land.DEFAULT,
+                Land.DEFAULT, Land.DEFAULT, Land.DEFAULT,
+                Land.DEFAULT, Land.DEFAULT, Land.DEFAULT
+        });
     }
 
     public Long calculateNetWorth() {
@@ -54,10 +67,6 @@ public class User extends Model {
 
     private Long getIncome() {
         Long income = 0L;
-        List<UserLand> lands = UserLand.find("user = ?", this).fetch();
-        for ( UserLand land : lands ) {
-            income += land.land.income * land.quantity;
-        }
         return income;
     }
 
@@ -69,13 +78,13 @@ public class User extends Model {
     
     private long secondsSinceLastUpdate()
     {
-    	long diffInSeconds = (Calendar.getInstance().getTimeInMillis() - lastUpdate.getTimeInMillis())/1000;
+    	long diffInSeconds = (DateTime.now().getMillis() - lastUpdate.getMillis())/1000;
     	return diffInSeconds;
     }
 
     private long secondsSinceLastIncome()
     {
-        long diffInSeconds = (Calendar.getInstance().getTimeInMillis() - lastIncome.getTimeInMillis())/1000;
+        long diffInSeconds = (DateTime.now().getMillis() - lastIncome.getMillis())/1000;
         return diffInSeconds;
     }
     
@@ -91,14 +100,14 @@ public class User extends Model {
         // Gain 1 health every 5 minutes
         if ( updateSpans > 0 && health < healthMax ) {
             health = Math.max(0, Math.min(health+updateSpans, healthMax));
-            lastUpdate.add(Calendar.MINUTE, (int)(updateInterval * updateSpans));
+            lastUpdate = new DateTime(lastUpdate).plusMinutes((int)(updateInterval * updateSpans));
             save();
         } else if ( health >= healthMax ) {
             // Reset lastUpdate, any change in account status will
             // cause this to start ticking. Otherwise any damage taken
             // will get healed as of the last time this value was
             // saved.
-            lastUpdate = Calendar.getInstance();
+            lastUpdate = DateTime.now();
         }
     }
 
@@ -110,7 +119,7 @@ public class User extends Model {
         if ( updateSpans > 0 && health < healthMax ) {
             Long income = getIncome();
             gold += updateSpans * income;
-            lastIncome.add(Calendar.MINUTE, (int)(updateInterval * updateSpans));
+            lastIncome = new DateTime(lastIncome).plusMinutes((int) (updateInterval * updateSpans));
             save();
         }
     }

@@ -8,5 +8,6 @@
     "xpGoal": "${level.xp}",
     "netWorth": "${user.netWorth}",
     "nextUpdate": "${user.nextUpdate()}",
-    "nextIncome": "${user.nextIncome()}"
+    "nextIncome": "${user.nextIncome()}",
+    "lands": ${user.lands}
 }

@@ -1,6 +1,7 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
+*       /facebook/deauthorize                   Application.facebookUninstall
 *		/facebook/?								Application.facebook
 
 # Home page
@@ -13,7 +14,6 @@ GET /leaderboard/?                              Application.leaderboard
 GET /register/?                                 Application.postUser
 
 GET /user/?                                     Application.userInfo
-GET /user/land/?                                Application.userLands
 
 GET /unit/?                                     Army.list
 

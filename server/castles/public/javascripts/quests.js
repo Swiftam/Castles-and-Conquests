@@ -37,7 +37,11 @@ CastlesApp.QuestView = Backbone.View.extend({
         if ( this.canRunQuest() ) {
             this.model.run();
         } else {
-            CastlesApp.app.showLevelup("You're too hurt, for that.");
+            var questhurtView = new CastlesApp.QuestHurtDialogView({model:{
+                price: 0
+            }});
+            $('#levelup').html(questhurtView.render().el);
+            CastlesApp.app.showLevelup();
         }
     },
 
@@ -75,7 +79,11 @@ CastlesApp.QuestListItemView = Backbone.View.extend({
     },
 
     questFail:function (eventName) {
-        CastlesApp.app.showLevelup('quest failed');
+        var questfailView = new CastlesApp.QuestFailDialogView({model:{
+            price: 0
+        }});
+        $('#levelup').html(questfailView.render().el);
+        CastlesApp.app.showLevelup();
     },
 
     render:function (eventName) {

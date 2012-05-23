@@ -1,17 +1,34 @@
 var CastlesApp = {
     sessionId: null,
 
+    maxLands: 9,
+
     router: null,
 
+    levelupTimer: null,
+
     showLevelup: function(text) {
-        $("#levelup_text").text(text);
+        //Get The Height Of Window
+        var height = $(window).height();
+        //Change Overlay Height
+        $("#loverlay").css('height',height+'px');
+
+        //$("#levelup_text").text(text);
         $("#levelup").show();
         $("#loverlay").fadeIn();
+
+        this.levelupTimer = setTimeout(function() {
+            $("#loverlay").click(function() {
+                CastlesApp.app.closeLevelup();
+            });
+        }, 5000);
     },
 
     closeLevelup: function() {
         $("#levelup").hide();
         $("#loverlay").fadeOut();
+        clearTimeout(this.levelupTimer);
+        $("#loverlay").unbind('click');
     },
 
     healthTimer: null,
@@ -29,11 +46,6 @@ var CastlesApp = {
         this.buildHud();
         this.startLevel=null;
         this.router = new CastlesApp.CastlesRouter();
-
-        // TODO: Refactor this
-        $("#loverlay").click(function() {
-            CastlesApp.app.closeLevelup();
-        });
 
         Backbone.history.start();
     },
@@ -56,10 +68,6 @@ var CastlesApp = {
     initUserData: function() {
         this.user = new CastlesApp.User();
         this.user.bind("change:health", this.checkHealthTimer, this);
-
-        this.userLands = new CastlesApp.UserLandList();
-        this.userLands.bind('reset', this.calculateIncome, this);
-        this.userLands.fetch();
     },
 
     // If the user's health is not the max, check again every once
@@ -68,7 +76,7 @@ var CastlesApp = {
         var health = parseInt(CastlesApp.app.user.get('health'));
         var healthMax = parseInt(CastlesApp.app.user.get('healthMax'));
         if ( health < healthMax && null == CastlesApp.app.healthTimer ) {
-            setInterval(function() {
+            CastlesApp.app.healthTimer = setInterval(function() {
                 CastlesApp.app.user.fetch();
             }, 30000);
         } else if ( health >= healthMax ) {
@@ -80,15 +88,6 @@ var CastlesApp = {
     calculateIncome: function() {
         var sender = this;
         var income=0;
-        _.each(this.userLands.models, function(land) {
-            var gLand = land.get('land');
-            var pLand = sender.landList.get(gLand.id);
-            var quantity = land.get('quantity');
-            income += gLand.income * quantity;
-            if ( null != pLand ) {
-                pLand.set({quantity: quantity});
-            }
-        });
         this.user.set({income: income});
     },
 
@@ -104,8 +103,7 @@ var CastlesApp = {
 CastlesApp.CastlesRouter = Backbone.Router.extend({
     routes: {
         "":"menu",
-        "lands": "landListing",
-        "lands/:id": "landDetails",
+        "lands": "userLandListing",
         "quests": "questListing",
         "quests/:id": "questDetails",
         "profile": "profile",
@@ -138,15 +136,9 @@ CastlesApp.CastlesRouter = Backbone.Router.extend({
         $('#content').html(this.unitView.render(null).el);
     },
 
-    landListing:function() {
-        this.landListView = new CastlesApp.LandListView({model:CastlesApp.app.landList});
-        $('#content').html(this.landListView.render().el);
-    },
-
-    landDetails:function(id) {
-        this.land = CastlesApp.app.landList.get(id);
-        this.landView = new CastlesApp.LandView({model:this.land});
-        $('#content').html(this.landView.render().el);
+    userLandListing:function() {
+        this.userLandListView = new CastlesApp.UserLandListView({model:CastlesApp.app.user});
+        $('#content').html(this.userLandListView.render(null).el);
     },
 
     questListing:function() {
@@ -204,14 +196,26 @@ CastlesApp.HudView = Backbone.View.extend({
     level: function() {
         var level = parseInt( this.model.get('level') );
         if ( null != CastlesApp.app.startLevel && CastlesApp.app.startLevel != level ) {
-            CastlesApp.showLevelup('welcome to level ' + this.model.get('level'));
+            var levelupView = new CastlesApp.LevelupDialogView({model:{
+                level: level
+            }});
+            $('#levelup').html(levelupView.render().el);
+            CastlesApp.app.showLevelup();
         }
         CastlesApp.app.startLevel = level;
+    },
+
+    setupXpBar: function() {
+        var xp = this.model.get('xp');
+        var xpGoal = this.model.get('xpGoal');
+        var xpPercent = xp / xpGoal * 100;
+        $("#xpProgressIndicator").css('width', xpPercent + '%' );
     },
 
     render: function(eventName) {
         $(this.el).empty();
         $(this.el).html(this.template(this.model.toJSON()));
+        this.setupXpBar();
         return this;
     }
 });

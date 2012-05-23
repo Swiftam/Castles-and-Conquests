@@ -1,11 +1,9 @@
-import org.junit.*;
 import org.junit.Before;
-
-import play.test.*;
-import play.mvc.*;
-import play.mvc.Http.*;
+import org.junit.Test;
+import play.mvc.Http.Response;
 import play.mvc.Scope.Session;
-import models.*;
+import play.test.Fixtures;
+import play.test.FunctionalTest;
 
 public class ApplicationTest extends FunctionalTest {
 	@Before
@@ -18,7 +16,7 @@ public class ApplicationTest extends FunctionalTest {
 	@Test
     public void testIndexPageRedirectsWhenUnauthenticated() {
 		Response response = GET("/");
-		this.assertStatus(302, response);
+		assertIsOk(response);
     }
     
     @Test

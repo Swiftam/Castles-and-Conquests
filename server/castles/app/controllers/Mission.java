@@ -1,13 +1,13 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import play.mvc.Http.Request;
+import models.Level;
+import models.Quest;
+import models.User;
+import play.mvc.Before;
+import play.mvc.Controller;
 
-import java.util.*;
-import utils.*;
-
-import models.*;
+import java.util.List;
+import java.util.Random;
 
 public class Mission extends Controller {
 	@Before
@@ -93,6 +93,6 @@ public class Mission extends Controller {
     	}
     	user.save();
 
-    	render(quest, user, goldGained, advanceLevel);
+    	render(quest, user, goldGained, advanceLevel, level);
     }
 }

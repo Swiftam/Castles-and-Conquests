@@ -1,6 +1,7 @@
 CastlesApp.Registration = {
     kontagent: null,
     snid: null,
+    sessionId: null,
 
     init:function(options) {
         if ( options.kontagent ) {
@@ -8,6 +9,9 @@ CastlesApp.Registration = {
         }
         if ( options.snid ) {
             this.snid = options.snid;
+        }
+        if ( options.sessionId ) {
+            this.sessionId = options.sessionId;
         }
         this.registrationView = new CastlesApp.Registration.RegistrationView();
         $('#content').html(this.registrationView.render().el);
@@ -26,7 +30,7 @@ CastlesApp.Registration.RegistrationView = Backbone.View.extend({
         var nameField = $('input[name=name]');
         $.getJSON("/register", {
             name: nameField.val(),
-            snid: CastlesApp.Registration.snid
+            sessionId: CastlesApp.Registration.sessionId
         }, function(data) {
             window.app = CastlesApp.init({
                 sessionId: data.snid,
